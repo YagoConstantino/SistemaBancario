@@ -1,0 +1,3 @@
+No contexto de desenvolvimento desse sistema foi usado 
+Linguagem  tal, Framework/Biblioteca tal e projetado diagramas de Casos de uso,classes sequencia .....
+
