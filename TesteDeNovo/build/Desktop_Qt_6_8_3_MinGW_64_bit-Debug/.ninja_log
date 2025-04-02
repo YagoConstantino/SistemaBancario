@@ -1,0 +1,9 @@
+# ninja log v6
+8	864	7653077177764216	TesteDeNovo_autogen/timestamp	5a2549bfd32a2be3
+8	864	7653077177764216	TesteDeNovo_autogen/mocs_compilation.cpp	5a2549bfd32a2be3
+8	864	7653077177764216	C:/Users/yagoa/Desktop/APS/TesteDeNovo/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/TesteDeNovo_autogen/timestamp	5a2549bfd32a2be3
+8	864	7653077177764216	C:/Users/yagoa/Desktop/APS/TesteDeNovo/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/TesteDeNovo_autogen/mocs_compilation.cpp	5a2549bfd32a2be3
+876	3680	7653077178928051	CMakeFiles/TesteDeNovo.dir/main.cpp.obj	fb01bffe061f3ae4
+870	3749	7653077178868197	CMakeFiles/TesteDeNovo.dir/TesteDeNovo_autogen/mocs_compilation.cpp.obj	6c79a7e387da03b0
+883	3820	7653077179008222	CMakeFiles/TesteDeNovo.dir/mainwindow.cpp.obj	1b6bcd044276e7c1
+3820	4010	7653077208375193	TesteDeNovo.exe	f7c5b65246cb1fdf

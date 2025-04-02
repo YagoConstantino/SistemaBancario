@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-373b479e64efe7504575.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "TesteDeNovo",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "TesteDeNovo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TesteDeNovo-Debug-1eba46767ee98c6d30b3.json",
+					"name" : "TesteDeNovo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TesteDeNovo_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TesteDeNovo_autogen-Debug-7ebc7941a45e09c2084b.json",
+					"name" : "TesteDeNovo_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TesteDeNovo_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TesteDeNovo_autogen_timestamp_deps-Debug-e9d2d9606c09458014d2.json",
+					"name" : "TesteDeNovo_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/yagoa/Desktop/APS/TesteDeNovo/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/yagoa/Desktop/APS/TesteDeNovo"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
