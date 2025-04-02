@@ -1,9 +1,0 @@
-# ninja log v6
-8	855	7653066780308404	TesteYago_autogen/timestamp	b2e7dbf1a29cfdf4
-8	855	7653066780308404	TesteYago_autogen/mocs_compilation.cpp	b2e7dbf1a29cfdf4
-8	855	7653066780308404	C:/Users/yagoa/Desktop/APS/TesteYago/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/TesteYago_autogen/timestamp	b2e7dbf1a29cfdf4
-8	855	7653066780308404	C:/Users/yagoa/Desktop/APS/TesteYago/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/TesteYago_autogen/mocs_compilation.cpp	b2e7dbf1a29cfdf4
-878	3582	7653066781547772	CMakeFiles/TesteYago.dir/TesteYago_autogen/mocs_compilation.cpp.obj	e5c84af428dc655c
-885	3659	7653066781617876	CMakeFiles/TesteYago.dir/main.cpp.obj	b1c0ccd4e5702190
-891	3802	7653066781677853	CMakeFiles/TesteYago.dir/mainwindow.cpp.obj	e8ae115a95bd5f8d
-3802	4052	7653066810791065	TesteYago.exe	259ba0ecbd86cd67
