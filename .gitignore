@@ -1,0 +1,10 @@
+# Ignorar arquivos gerados pelo Qt e CMake
+Teste/build/
+*.ninja*
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+*.json
+*.txt
+mocs_compilation.cpp
+*.dir/
