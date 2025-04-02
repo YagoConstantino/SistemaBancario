@@ -1,9 +1,0 @@
-# ninja log v6
-7	868	7652623776833714	Teste_autogen/timestamp	dcc57142670f52ed
-7	868	7652623776833714	Teste_autogen/mocs_compilation.cpp	dcc57142670f52ed
-7	868	7652623776833714	C:/Users/yagoa/Desktop/Teste/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Teste_autogen/timestamp	dcc57142670f52ed
-7	868	7652623776833714	C:/Users/yagoa/Desktop/Teste/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Teste_autogen/mocs_compilation.cpp	dcc57142670f52ed
-893	3902	7652623778115696	CMakeFiles/Teste.dir/Teste_autogen/mocs_compilation.cpp.obj	bba2ae5d482edff4
-899	3914	7652623778173100	CMakeFiles/Teste.dir/main.cpp.obj	a8692e63a09f0a04
-905	3982	7652623778243093	CMakeFiles/Teste.dir/mainwindow.cpp.obj	963ab96e847774de
-3989	4202	7652623809078310	Teste.exe	dc990ce2435f4a79
