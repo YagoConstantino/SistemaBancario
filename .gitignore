@@ -8,3 +8,4 @@ CMakeCache.txt
 *.txt
 mocs_compilation.cpp
 *.dir/
+/build/*
