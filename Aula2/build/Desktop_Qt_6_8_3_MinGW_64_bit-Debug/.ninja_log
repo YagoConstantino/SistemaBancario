@@ -1,0 +1,10 @@
+# ninja log v6
+12	1340	7658644491354553	Aula2_autogen/timestamp	6f8cf379d5c991f
+12	1340	7658644491354553	Aula2_autogen/mocs_compilation.cpp	6f8cf379d5c991f
+12	1340	7658644491354553	C:/Users/yagoa/Desktop/APS/Aula2/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Aula2_autogen/timestamp	6f8cf379d5c991f
+12	1340	7658644491354553	C:/Users/yagoa/Desktop/APS/Aula2/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Aula2_autogen/mocs_compilation.cpp	6f8cf379d5c991f
+1348	5738	7658644492954577	CMakeFiles/Aula2.dir/Aula2_autogen/mocs_compilation.cpp.obj	5c7268cb91d003a1
+1355	5836	7658644493014654	CMakeFiles/Aula2.dir/main.cpp.obj	96ddbb3f240d245
+1366	6236	7658644493134594	CMakeFiles/Aula2.dir/menuprincipal.cpp.obj	c6d0cc19125ed9d6
+1361	6319	7658644493074578	CMakeFiles/Aula2.dir/mainwindow.cpp.obj	39e5a25331c59e04
+6319	6672	7658644542654633	Aula2.exe	800d1f228a5bed8f
