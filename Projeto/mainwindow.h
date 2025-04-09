@@ -22,6 +22,7 @@ public:
 private slots:
     void Menu_Principal();
     void AbrirCadastro();
+    void mostrarSenha(bool checked);
 
 private:
     Ui::MainWindow *ui;
