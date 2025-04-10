@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "menuprincipal.h"
 #include "cadastro.h"
+#include "esqueceusenha.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,11 +23,13 @@ public:
 private slots:
     void Menu_Principal();
     void AbrirCadastro();
+    void AbrirEsqueceuSenha();
     void mostrarSenha(bool checked);
 
 private:
     Ui::MainWindow *ui;
-    MenuPrincipal *MenuPrin;
-    Cadastro *cad;
+    MenuPrincipal *_MenuPrin;
+    Cadastro *_cad;
+    EsqueceuSenha *_Esq;
 };
 #endif // MAINWINDOW_H

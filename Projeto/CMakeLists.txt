@@ -24,6 +24,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         cadastro.cpp cadastro.h cadastro.ui main.cpp mainwindow.cpp mainwindow.h mainwindow.ui menuprincipal.cpp menuprincipal.h menuprincipal.ui
+        esqueceusenha.h esqueceusenha.cpp esqueceusenha.ui
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Projeto APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

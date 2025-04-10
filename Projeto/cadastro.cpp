@@ -12,6 +12,7 @@ Cadastro::Cadastro(QWidget *parent)
 {
     ui->setupUi(this);
     ui->dateEditNascimento->setDisplayFormat("dd/MM/yyyy");
+    setWindowTitle("Cadastro");
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarLogin()));
     connect(ui->ConfirmarCad,SIGNAL(clicked()),this,SLOT(ConfirmarCadastro()));

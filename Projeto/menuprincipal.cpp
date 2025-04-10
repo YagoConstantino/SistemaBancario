@@ -8,6 +8,7 @@ MenuPrincipal::MenuPrincipal(QWidget *parent)
     Login(nullptr)
 {
     ui->setupUi(this);
+    setWindowTitle("Menu Principal");
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarLogin()));
 }
