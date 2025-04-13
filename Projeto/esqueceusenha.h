@@ -28,6 +28,8 @@ private slots:
 //Funções
 private:
     int verificaDados();
+    void closeEvent(QCloseEvent *event) override;
+
 
 private:
     Ui::EsqueceuSenha *ui;

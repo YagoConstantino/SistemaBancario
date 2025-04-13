@@ -33,6 +33,7 @@ private:
 //Funções:
 private:
     int verificaCadastro();
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void voltarLogin();

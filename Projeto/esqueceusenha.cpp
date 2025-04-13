@@ -1,6 +1,7 @@
 #include "esqueceusenha.h"
 #include "ui_esqueceusenha.h"
 #include "mainwindow.h"
+#include <QCloseEvent>
 
 
 EsqueceuSenha::EsqueceuSenha(QWidget *parent)
@@ -19,6 +20,16 @@ EsqueceuSenha::EsqueceuSenha(QWidget *parent)
 EsqueceuSenha::~EsqueceuSenha()
 {
     delete ui;
+}
+
+void EsqueceuSenha::closeEvent(QCloseEvent *event)
+{
+    Login = qobject_cast<MainWindow*>(parentWidget());
+    if (Login) {
+        Login->show();  // Mostra a MainWindow
+    }
+
+    event->accept();  // Aceita o fechamento
 }
 
 int EsqueceuSenha::verificaDados()

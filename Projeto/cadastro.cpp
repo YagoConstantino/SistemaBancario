@@ -2,6 +2,7 @@
 #include "ui_cadastro.h"
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <QCloseEvent>
 
 Cadastro::Cadastro(QWidget *parent)
     : QDialog(parent)
@@ -22,6 +23,16 @@ Cadastro::Cadastro(QWidget *parent)
 Cadastro::~Cadastro()
 {
     delete ui;
+}
+
+void Cadastro::closeEvent(QCloseEvent *event)
+{
+    Login = qobject_cast<MainWindow*>(parentWidget());
+    if (Login) {
+        Login->show();  // Mostra a MainWindow
+    }
+
+    event->accept();  // Aceita o fechamento
 }
 
 void Cadastro::voltarLogin()

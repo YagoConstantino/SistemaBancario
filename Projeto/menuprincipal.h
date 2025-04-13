@@ -17,6 +17,10 @@ public:
 private slots:
     void voltarLogin();
 
+//Funções
+private:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::MenuPrincipal *ui;
     MainWindow *Login;
