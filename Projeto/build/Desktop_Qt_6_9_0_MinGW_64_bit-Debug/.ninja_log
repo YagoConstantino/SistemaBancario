@@ -1,0 +1,12 @@
+# ninja log v6
+10	1417	7660044663373634	Projeto_autogen/timestamp	b134dd6e703680d2
+10	1417	7660044663373634	Projeto_autogen/mocs_compilation.cpp	b134dd6e703680d2
+10	1417	7660044663373634	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Projeto_autogen/timestamp	b134dd6e703680d2
+10	1417	7660044663373634	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Projeto_autogen/mocs_compilation.cpp	b134dd6e703680d2
+1441	5810	7660044664924606	CMakeFiles/Projeto.dir/main.cpp.obj	783187284204032f
+1432	6054	7660044664834591	CMakeFiles/Projeto.dir/Projeto_autogen/mocs_compilation.cpp.obj	cbe9ec34a6cf84e2
+1467	6085	7660044665181340	CMakeFiles/Projeto.dir/menuprincipal.cpp.obj	d2666cf11007a570
+1450	6168	7660044665016943	CMakeFiles/Projeto.dir/mainwindow.cpp.obj	9c98c61b498e44d6
+1475	6273	7660044665257447	CMakeFiles/Projeto.dir/esqueceusenha.cpp.obj	7dec6b96f04b6596
+1459	6566	7660044665101303	CMakeFiles/Projeto.dir/cadastro.cpp.obj	781d074bdbd8109a
+6566	7173	7660044716170108	Projeto.exe	8d5645c7eb96dc0b

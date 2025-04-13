@@ -1,0 +1,18 @@
+# ninja log v6
+20	1205	7653093368233367	TesteDeNovo_autogen/timestamp	74527781e9447465
+20	1205	7653093368233367	TesteDeNovo_autogen/mocs_compilation.cpp	74527781e9447465
+20	1205	7653093368233367	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/TesteDeNovo/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/TesteDeNovo_autogen/timestamp	74527781e9447465
+20	1205	7653093368233367	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/TesteDeNovo/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/TesteDeNovo_autogen/mocs_compilation.cpp	74527781e9447465
+1223	4239	7653093370006462	CMakeFiles/TesteDeNovo.dir/TesteDeNovo_autogen/mocs_compilation.cpp.obj	6997314e1a77ba76
+1229	4267	7653093370016603	CMakeFiles/TesteDeNovo.dir/main.cpp.obj	fd0e77fa2557d72c
+4397	4845	7653093401745382	TesteDeNovo.exe	a3b42889a5b22c7f
+1236	4396	7653093370099893	CMakeFiles/TesteDeNovo.dir/mainwindow.cpp.obj	872518f98ce9fea9
+60	1303	7659153913009356	Aula2_autogen/timestamp	27e88de80fe782e7
+60	1303	7659153913009356	Aula2_autogen/mocs_compilation.cpp	27e88de80fe782e7
+60	1303	7659153913009356	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/TesteDeNovo/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Aula2_autogen/timestamp	27e88de80fe782e7
+60	1303	7659153913009356	C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/TesteDeNovo/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/Aula2_autogen/mocs_compilation.cpp	27e88de80fe782e7
+1317	5100	7659153914417662	CMakeFiles/Aula2.dir/main.cpp.obj	8b748e1bfc663d55
+1329	5118	7659153914613634	CMakeFiles/Aula2.dir/menuprincipal.cpp.obj	27d5390335c485f2
+1311	5119	7659153914417662	CMakeFiles/Aula2.dir/Aula2_autogen/mocs_compilation.cpp.obj	57cfa9af6c5133c8
+1323	5139	7659153914555794	CMakeFiles/Aula2.dir/mainwindow.cpp.obj	40cf5c9345ac9800
+5140	6050	7659153952717567	Aula2.exe	fb75230c5ec4e54e
