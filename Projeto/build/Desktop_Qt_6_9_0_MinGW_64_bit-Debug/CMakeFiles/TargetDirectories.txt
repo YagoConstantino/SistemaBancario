@@ -1,9 +1,0 @@
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/Projeto.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/install.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/Projeto_autogen_timestamp_deps.dir
-C:/Users/gabri/OneDrive/Documentos/Tudo/Back end/SistemaBancario/Projeto/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/Projeto_autogen.dir
