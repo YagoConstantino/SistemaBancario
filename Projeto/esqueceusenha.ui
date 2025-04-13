@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EsqueceuSenha</class>
+ <widget class="QDialog" name="EsqueceuSenha">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="CPFlabel">
+           <property name="text">
+            <string>CPF</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="MaeLabel">
+           <property name="text">
+            <string>Nome da Mae</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="SenhaLabel">
+           <property name="text">
+            <string>Nova Senha</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ConfirmaSenhaLabel">
+           <property name="text">
+            <string>Confirma Nova Senha</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLineEdit" name="CPFtextBox"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="MaeTextBox"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="SenhaTextBox">
+           <property name="echoMode">
+            <enum>QLineEdit::EchoMode::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="ConfirmaSenhaTextBox">
+           <property name="echoMode">
+            <enum>QLineEdit::EchoMode::Password</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="ConfButton">
+         <property name="text">
+          <string>Confirma</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="SairButton">
+         <property name="text">
+          <string>Sair</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="MostrarSenha">
+     <property name="text">
+      <string>Mostrar Senha</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

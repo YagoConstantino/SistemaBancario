@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MenuPrincipal</class>
+ <widget class="QDialog" name="MenuPrincipal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>799</width>
+    <height>441</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Menu Principal</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>100</y>
+     <width>120</width>
+     <height>206</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="Deposito">
+      <property name="text">
+       <string>Fazer Depósito</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Saque">
+      <property name="text">
+       <string>Fazer Saque</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Transferencia">
+      <property name="text">
+       <string>Fazer Transferência</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="VerSaldo">
+      <property name="text">
+       <string>Ver Saldo</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="VerFatura">
+      <property name="text">
+       <string>Ver Fatura de Crédito</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="VerExtrato">
+      <property name="text">
+       <string>Ver Extrato</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Sair">
+      <property name="text">
+       <string>Sair</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>Deposito</tabstop>
+  <tabstop>Saque</tabstop>
+  <tabstop>Transferencia</tabstop>
+  <tabstop>VerSaldo</tabstop>
+  <tabstop>VerFatura</tabstop>
+  <tabstop>VerExtrato</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
