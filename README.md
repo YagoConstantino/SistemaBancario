@@ -3,6 +3,6 @@ Desenvolvimento de um sistema Bancário para a disciplina de Análise e Projeto 
 Projetado e desenvolvido por Yago Augusto Constantino Ribeiro, Gabriel Felipe Miguel Machado e [Terceiro Integrante], [Quarto Integrante].
 
 No contexto de desenvolvimento desse sistema foi usado:
-Linguagem  tal, Framework/Biblioteca tal e projetado mediante diagramas de Casos de uso, de classes sequencia .....
+Linguagem  tal, Framework/Biblioteca tal e projetado mediante diagramas de Casos de uso, de Classes,de Sequência .....
 
 
