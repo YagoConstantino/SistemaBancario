@@ -26,55 +26,97 @@
     <string>Menu Principal</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>100</y>
-     <width>120</width>
-     <height>206</height>
+     <y>80</y>
+     <width>142</width>
+     <height>238</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QPushButton" name="Deposito">
-      <property name="text">
-       <string>Fazer Depósito</string>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="Deposito">
+        <property name="text">
+         <string>Fazer Depósito</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/deposito.png</normaloff>:/Assets/Assets/deposito.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Saque">
+        <property name="text">
+         <string>Fazer Saque</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/troca-de-dinheiro.png</normaloff>:/Assets/Assets/troca-de-dinheiro.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Transferencia">
+        <property name="text">
+         <string>Fazer Transferência</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/transferir-dinheiro.png</normaloff>:/Assets/Assets/transferir-dinheiro.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="VerSaldo">
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Ver Saldo</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/cadastro.png</normaloff>:/Assets/Assets/cadastro.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="VerFatura">
+        <property name="text">
+         <string>Ver Fatura de Crédito</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/novo-documento.png</normaloff>:/Assets/Assets/novo-documento.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="VerExtrato">
+        <property name="text">
+         <string>Ver Extrato</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/download.png</normaloff>:/Assets/Assets/download.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="Saque">
+     <widget class="QPushButton" name="EncerraButton">
       <property name="text">
-       <string>Fazer Saque</string>
+       <string>Encerrar Conta</string>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="Transferencia">
-      <property name="text">
-       <string>Fazer Transferência</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="VerSaldo">
-      <property name="text">
-       <string>Ver Saldo</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="VerFatura">
-      <property name="text">
-       <string>Ver Fatura de Crédito</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="VerExtrato">
-      <property name="text">
-       <string>Ver Extrato</string>
+      <property name="icon">
+       <iconset resource="Assets.qrc">
+        <normaloff>:/Assets/Assets/excluir.png</normaloff>:/Assets/Assets/excluir.png</iconset>
       </property>
      </widget>
     </item>
@@ -89,13 +131,14 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>Deposito</tabstop>
   <tabstop>Saque</tabstop>
   <tabstop>Transferencia</tabstop>
   <tabstop>VerSaldo</tabstop>
   <tabstop>VerFatura</tabstop>
   <tabstop>VerExtrato</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Assets.qrc"/>
+ </resources>
  <connections/>
 </ui>

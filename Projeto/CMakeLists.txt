@@ -25,6 +25,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         cadastro.cpp cadastro.h cadastro.ui main.cpp mainwindow.cpp mainwindow.h mainwindow.ui menuprincipal.cpp menuprincipal.h menuprincipal.ui
         esqueceusenha.h esqueceusenha.cpp esqueceusenha.ui
+        Assets.qrc
+        fazerdeposito.h fazerdeposito.cpp fazerdeposito.ui
+        fazersaque.h fazersaque.cpp fazersaque.ui
+        fazertransferencia.h fazertransferencia.cpp fazertransferencia.ui
+        verfaturacredito.h verfaturacredito.cpp verfaturacredito.ui
+        verextrato.h verextrato.cpp verextrato.ui
+        encerrarconta.h encerrarconta.cpp encerrarconta.ui
 
     )
 # Define target properties for Android with Qt 6 as:
