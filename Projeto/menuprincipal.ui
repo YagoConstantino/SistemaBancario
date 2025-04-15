@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>80</y>
+     <y>110</y>
      <width>142</width>
      <height>238</height>
     </rect>
@@ -38,6 +38,20 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="VerSaldo">
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Ver Saldo</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Assets.qrc">
+          <normaloff>:/Assets/Assets/cadastro.png</normaloff>:/Assets/Assets/cadastro.png</iconset>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QPushButton" name="Deposito">
         <property name="text">
@@ -68,20 +82,6 @@
         <property name="icon">
          <iconset resource="Assets.qrc">
           <normaloff>:/Assets/Assets/transferir-dinheiro.png</normaloff>:/Assets/Assets/transferir-dinheiro.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="VerSaldo">
-        <property name="cursor">
-         <cursorShape>ArrowCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>Ver Saldo</string>
-        </property>
-        <property name="icon">
-         <iconset resource="Assets.qrc">
-          <normaloff>:/Assets/Assets/cadastro.png</normaloff>:/Assets/Assets/cadastro.png</iconset>
         </property>
        </widget>
       </item>
@@ -133,7 +133,6 @@
  <tabstops>
   <tabstop>Saque</tabstop>
   <tabstop>Transferencia</tabstop>
-  <tabstop>VerSaldo</tabstop>
   <tabstop>VerFatura</tabstop>
   <tabstop>VerExtrato</tabstop>
  </tabstops>

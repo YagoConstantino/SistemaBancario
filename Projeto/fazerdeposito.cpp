@@ -10,6 +10,8 @@ FazerDeposito::FazerDeposito(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Deposito");
+    setAttribute(Qt::WA_DeleteOnClose);
+
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
 }

@@ -11,6 +11,7 @@ VerFaturaCredito::VerFaturaCredito(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Fatura de Crédito");
+    setAttribute(Qt::WA_DeleteOnClose);
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
 }

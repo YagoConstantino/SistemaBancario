@@ -11,6 +11,8 @@ VerExtrato::VerExtrato(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Ver Extrato");
+    setAttribute(Qt::WA_DeleteOnClose);
+
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
 }

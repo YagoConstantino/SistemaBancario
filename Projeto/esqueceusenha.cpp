@@ -11,6 +11,8 @@ EsqueceuSenha::EsqueceuSenha(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Esqueceu Senha");
+    setAttribute(Qt::WA_DeleteOnClose);
+
 
     connect(ui->ConfButton,SIGNAL(clicked()),this,SLOT(ConfirmarTrocaDeSenha()));
     connect(ui->SairButton,SIGNAL(clicked()),this,SLOT(VoltarLogin()));

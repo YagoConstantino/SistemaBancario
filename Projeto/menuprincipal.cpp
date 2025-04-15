@@ -19,6 +19,8 @@ MenuPrincipal::MenuPrincipal(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Menu Principal");
+    setAttribute(Qt::WA_DeleteOnClose);
+
     ConectaBotoesFuncoes();
 
 }

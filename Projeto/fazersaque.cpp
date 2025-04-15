@@ -10,6 +10,8 @@ FazerSaque::FazerSaque(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Saque");
+    setAttribute(Qt::WA_DeleteOnClose);
+
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
 }
