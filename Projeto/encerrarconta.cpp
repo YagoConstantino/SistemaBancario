@@ -9,7 +9,7 @@ EncerrarConta::EncerrarConta(QWidget *parent)
     MenuPrin(nullptr)
 {
     ui->setupUi(this);
-    setWindowTitle("Encerrar Conta");]setAttribute(Qt::WA_DeleteOnClose);
+    setWindowTitle("Encerrar Conta");setAttribute(Qt::WA_DeleteOnClose);
 
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
