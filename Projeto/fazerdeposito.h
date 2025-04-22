@@ -19,6 +19,7 @@ public:
 
 private slots:
     void voltarMenu();
+    void confirmarSenha();
 
 private:
     Ui::FazerDeposito *ui;

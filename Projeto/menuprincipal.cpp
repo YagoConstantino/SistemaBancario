@@ -3,6 +3,7 @@
 #include "mainwindow.h"  // static_cast
 #include <QCloseEvent>
 #include <QIcon>
+#include <QLineEdit>
 
 
 MenuPrincipal::MenuPrincipal(QWidget *parent)
@@ -14,7 +15,8 @@ MenuPrincipal::MenuPrincipal(QWidget *parent)
     Transf(nullptr),
     FatCred(nullptr),
     VerExtra(nullptr),
-    EnceCont(nullptr)
+    EnceCont(nullptr),
+    VerSald(nullptr)
 
 {
     ui->setupUi(this);
@@ -49,6 +51,7 @@ void MenuPrincipal::ConectaBotoesFuncoes()
     connect(ui->VerFatura,SIGNAL(clicked()),this,SLOT(JanelaFatCred()));
     connect(ui->VerExtrato,SIGNAL(clicked()),this,SLOT(JanelaVerExtrato()));
     connect(ui->EncerraButton,SIGNAL(clicked()),this,SLOT(JanelaEncerrarConta()));
+    connect(ui->VerSaldo,SIGNAL(clicked()),this,SLOT(verSaldo()));
 }
 void MenuPrincipal::voltarLogin()
 {
@@ -101,5 +104,12 @@ void MenuPrincipal::JanelaEncerrarConta()
 {
     EnceCont = new EncerrarConta(this);
     EnceCont->show();
+    hide();
+}
+
+void MenuPrincipal::verSaldo()
+{
+    VerSald = new VerSaldo(this);
+    VerSald->show();
     hide();
 }

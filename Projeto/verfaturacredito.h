@@ -22,6 +22,7 @@ private:
 
 private slots:
     void voltarMenu();
+    void pagarFatura();
 
     //Funções
 private:

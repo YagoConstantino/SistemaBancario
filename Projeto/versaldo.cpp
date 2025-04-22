@@ -1,44 +1,38 @@
-#include "fazersaque.h"
-#include "ui_fazersaque.h"
+#include "versaldo.h"
+#include "ui_versaldo.h"
 #include "menuprincipal.h"
 #include <qevent.h>
-
-FazerSaque::FazerSaque(QWidget *parent)
+VerSaldo::VerSaldo(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::FazerSaque),
-    MenuPrin(nullptr)
+    , ui(new Ui::VerSaldo)
+    , MenuPrin(nullptr)
 {
     ui->setupUi(this);
-    setWindowTitle("Saque");
+
+    setWindowTitle("Ver Saldo");
     setAttribute(Qt::WA_DeleteOnClose);
 
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
-    connect(ui->ConfirmaButton,SIGNAL(clicked()),this,SLOT(confirmarSenha()));
 }
 
-FazerSaque::~FazerSaque()
+VerSaldo::~VerSaldo()
 {
     delete ui;
 }
 
-void FazerSaque::voltarMenu()
+void VerSaldo::voltarMenu()
 {
     MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
     MenuPrin->show();
     close();
 }
 
-void FazerSaque::closeEvent(QCloseEvent *event)
+void VerSaldo::closeEvent(QCloseEvent *event)
 {
     MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
     if (MenuPrin)
         MenuPrin->show();
 
     event->accept();
-}
-
-void FazerSaque::confirmarSenha()
-{
-
 }

@@ -8,6 +8,7 @@
 #include "verfaturacredito.h"
 #include "verextrato.h"
 #include "encerrarconta.h"
+#include "versaldo.h"
 
 namespace Ui { class MenuPrincipal; }
 class MainWindow;
@@ -28,11 +29,13 @@ private slots:
     void JanelaFatCred();
     void JanelaVerExtrato();
     void JanelaEncerrarConta();
+    void verSaldo();
 
 //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
     void ConectaBotoesFuncoes();
+
 
 private:
     Ui::MenuPrincipal *ui;
@@ -43,6 +46,7 @@ private:
     VerFaturaCredito   *FatCred;
     VerExtrato         *VerExtra;
     EncerrarConta      *EnceCont;
+    VerSaldo           *VerSald;
 };
 
 #endif // MENUPRINCIPAL_H

@@ -32,6 +32,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         verfaturacredito.h verfaturacredito.cpp verfaturacredito.ui
         verextrato.h verextrato.cpp verextrato.ui
         encerrarconta.h encerrarconta.cpp encerrarconta.ui
+        versaldo.h versaldo.cpp versaldo.ui
+
+
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -22,10 +22,13 @@ private:
 
 private slots:
     void voltarMenu();
+    void encerrarConta();
+    void mostrarSenha(bool checked);
 
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+    int verificaDadosParaEncerramento();
 };
 
 #endif // ENCERRARCONTA_H

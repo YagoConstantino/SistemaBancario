@@ -14,6 +14,7 @@ VerFaturaCredito::VerFaturaCredito(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
+    connect(ui->PagarButton,SIGNAL(clicked()),this,SLOT(pagarFatura()));
 }
 
 VerFaturaCredito::~VerFaturaCredito()
@@ -35,4 +36,9 @@ void VerFaturaCredito::closeEvent(QCloseEvent *event)
         MenuPrin->show();
 
     event->accept();
+}
+
+void VerFaturaCredito::pagarFatura()
+{
+    // Criar uma janela parecida com a do deposito, pegar a quantidade e alterar no saldo e fatura no banco de dados
 }

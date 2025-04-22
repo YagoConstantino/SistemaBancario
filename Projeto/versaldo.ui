@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FazerSaque</class>
- <widget class="QDialog" name="FazerSaque">
+ <class>VerSaldo</class>
+ <widget class="QDialog" name="VerSaldo">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>128</height>
+    <width>148</width>
+    <height>76</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,32 +21,21 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Quantidade</string>
+          <string>Saldo</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="QtdSaque"/>
+        <widget class="QLineEdit" name="SaldoText"/>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QPushButton" name="Sair">
-         <property name="text">
-          <string>Sair</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ConfirmaButton">
-         <property name="text">
-          <string>Confirmar Saque</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="Sair">
+       <property name="text">
+        <string>Sair</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

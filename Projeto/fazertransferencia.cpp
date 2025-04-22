@@ -14,6 +14,7 @@ FazerTransferencia::FazerTransferencia(QWidget *parent)
 
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
+    connect(ui->ConfirmaButton,SIGNAL(clicked()),this,SLOT(confirmarSenha()));
 }
 
 FazerTransferencia::~FazerTransferencia()
@@ -35,4 +36,9 @@ void FazerTransferencia::closeEvent(QCloseEvent *event)
         MenuPrin->show();
 
     event->accept();
+}
+
+void FazerTransferencia::confirmarSenha()
+{
+
 }
