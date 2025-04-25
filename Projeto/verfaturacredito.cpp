@@ -7,6 +7,9 @@ VerFaturaCredito::VerFaturaCredito(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::VerFaturaCredito)
     ,MenuPrin(nullptr)
+    ,CredTotal(0)
+    ,CredDisponivel(0)
+    ,FaturaCred(0)
 
 {
     ui->setupUi(this);

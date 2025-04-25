@@ -19,6 +19,7 @@ public:
 private:
     Ui::VerSaldo *ui;
     MenuPrincipal *MenuPrin;
+    QString Saldo;
 
 private slots:
     void voltarMenu();
@@ -26,6 +27,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // VERSALDO_H

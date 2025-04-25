@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 
+
+
 Cadastro::Cadastro(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Cadastro),

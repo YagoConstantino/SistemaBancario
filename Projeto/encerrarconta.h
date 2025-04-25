@@ -19,6 +19,8 @@ public:
 private:
     Ui::EncerrarConta *ui;
     MenuPrincipal  *MenuPrin;
+    QString DadosLogin;
+    QString DadosSenha;
 
 private slots:
     void voltarMenu();
@@ -29,6 +31,7 @@ private slots:
 private:
     void closeEvent(QCloseEvent *event) override;
     int verificaDadosParaEncerramento();
+
 };
 
 #endif // ENCERRARCONTA_H

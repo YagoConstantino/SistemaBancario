@@ -8,6 +8,8 @@ EncerrarConta::EncerrarConta(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::EncerrarConta),
     MenuPrin(nullptr)
+    ,DadosLogin()
+    ,DadosSenha()
 {
     ui->setupUi(this);
     setWindowTitle("Encerrar Conta");

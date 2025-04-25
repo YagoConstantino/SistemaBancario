@@ -6,6 +6,7 @@ VerSaldo::VerSaldo(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::VerSaldo)
     , MenuPrin(nullptr)
+    ,Saldo()
 {
     ui->setupUi(this);
 

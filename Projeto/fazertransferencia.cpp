@@ -7,6 +7,8 @@ FazerTransferencia::FazerTransferencia(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::FazerTransferencia),
     MenuPrin(nullptr)
+    ,DadosConta()
+    ,QtdTransferencia(0)
 {
     ui->setupUi(this);
     setWindowTitle("Transferências");

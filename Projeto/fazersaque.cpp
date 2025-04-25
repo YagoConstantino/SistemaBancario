@@ -7,6 +7,7 @@ FazerSaque::FazerSaque(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::FazerSaque),
     MenuPrin(nullptr)
+    ,QtdSaque(0)
 {
     ui->setupUi(this);
     setWindowTitle("Saque");

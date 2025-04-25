@@ -24,10 +24,12 @@ private slots:
 private:
     Ui::FazerDeposito *ui;
     MenuPrincipal *MenuPrin;
+    double QtdDeposito;
 
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // FAZERDEPOSITO_H

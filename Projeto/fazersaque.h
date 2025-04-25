@@ -19,6 +19,7 @@ public:
 private:
     Ui::FazerSaque *ui;
     MenuPrincipal *MenuPrin;
+    double QtdSaque;
 
 private slots:
     void voltarMenu();
@@ -27,6 +28,7 @@ private slots:
 //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // FAZERSAQUE_H

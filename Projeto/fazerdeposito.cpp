@@ -9,6 +9,7 @@ FazerDeposito::FazerDeposito(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::FazerDeposito),
     MenuPrin(nullptr)
+    ,QtdDeposito(0)
 {
     ui->setupUi(this);
     setWindowTitle("Deposito");

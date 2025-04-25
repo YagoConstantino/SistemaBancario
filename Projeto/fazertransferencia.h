@@ -19,6 +19,8 @@ public:
 private:
     Ui::FazerTransferencia *ui;
     MenuPrincipal *MenuPrin;
+    QString DadosConta;
+    double QtdTransferencia;
 
 private slots:
     void voltarMenu();
@@ -27,6 +29,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // FAZERTRANSFERENCIA_H

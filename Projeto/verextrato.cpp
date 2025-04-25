@@ -8,6 +8,7 @@ VerExtrato::VerExtrato(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::VerExtrato),
     MenuPrin(nullptr)
+    ,DadosExtrato()
 {
     ui->setupUi(this);
     setWindowTitle("Ver Extrato");

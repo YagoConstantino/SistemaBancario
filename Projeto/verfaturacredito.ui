@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>273</width>
-    <height>165</height>
+    <width>305</width>
+    <height>188</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,23 +21,30 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="CredTotalLabel">
            <property name="text">
             <string>Crédito Total</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="CredDispLabel">
            <property name="text">
             <string>Crédito Disponivel</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="FaturaLabel">
            <property name="text">
             <string>Fatura</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="QtdPagamento">
+           <property name="text">
+            <string>Quantidade a ser paga</string>
            </property>
           </widget>
          </item>
@@ -46,25 +53,28 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="CredTotText">
            <property name="text">
             <string>5000,00</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QLineEdit" name="CredDispText">
            <property name="text">
             <string>4650,00</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="FaturaText">
            <property name="text">
             <string>350,00</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="QtdPagarText"/>
          </item>
         </layout>
        </item>

@@ -19,6 +19,7 @@ public:
 private:
     Ui::VerExtrato *ui;
     MenuPrincipal  *MenuPrin;
+    QString DadosExtrato;
 
 private slots:
     void voltarMenu();
@@ -26,6 +27,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // VEREXTRATO_H

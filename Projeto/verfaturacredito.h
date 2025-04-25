@@ -19,6 +19,10 @@ public:
 private:
     Ui::VerFaturaCredito *ui;
     MenuPrincipal *MenuPrin;
+    double CredTotal;
+    double CredDisponivel;
+    double FaturaCred;
+    double QtdPagar;
 
 private slots:
     void voltarMenu();
@@ -27,6 +31,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+
 };
 
 #endif // VERFATURACREDITO_H
