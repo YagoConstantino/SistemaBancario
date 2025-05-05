@@ -10,7 +10,8 @@ Cadastro::Cadastro(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Cadastro),
     Login(nullptr),
-    _nome(""),_CPF(""),_email(""),_nascimento(QDate::currentDate()),_nomeMae(""),_Senha(""),_ConfirmaSenha("")
+    _nome(""),_CPF(""),_email(""),_nascimento(QDate::currentDate()),_nomeMae(""),_Senha(""),_ConfirmaSenha(""),
+    conta()
 
 {
     ui->setupUi(this);
@@ -39,6 +40,14 @@ void Cadastro::closeEvent(QCloseEvent *event)
     event->accept();  // Aceita o fechamento
 }
 
+//Deve criar uma nova conta com os dados pegos na interface grafica, cadastrar no banco de dados e passar
+//para o MainWindow
+Conta Cadastro::criaConta()
+{
+    Conta nova;
+    return nova;
+}
+
 void Cadastro::voltarLogin()
 {
     Login = qobject_cast<MainWindow*>(parentWidget());
@@ -59,6 +68,7 @@ void Cadastro::clearCaixasTexto()
 /*
  * Quando implementar mesmo note que , email tem formato especifico, CPF tem numero especifico e formato especifico
  *Senha tem quantidade e formato especifico.
+ *Deve chamar a função criaConta
 */
 int Cadastro::verificaCadastro()
 {

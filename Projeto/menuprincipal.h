@@ -47,6 +47,7 @@ private:
     VerExtrato         *VerExtra;
     EncerrarConta      *EnceCont;
     VerSaldo           *VerSald;
+
 };
 
 #endif // MENUPRINCIPAL_H

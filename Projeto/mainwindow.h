@@ -1,10 +1,16 @@
-    #ifndef MAINWINDOW_H
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSql>
+#include <QSqlDatabase>
+#include <QDebug>
+#include <QFileInfo>
+#include <QSqlError>
 #include "menuprincipal.h"
 #include "cadastro.h"
 #include "esqueceusenha.h"
+#include "conta.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool recuperarDadosConta();
+    bool verificarDadosConta(QString login,QString senha);
 
 private slots:
     void Menu_Principal();
@@ -31,5 +39,9 @@ private:
     MenuPrincipal *_MenuPrin;
     Cadastro *_cad;
     EsqueceuSenha *_Esq;
+    QString _CPFlogin;
+    QString _SenhaLogin;
+
+    Conta contaAtual;
 };
 #endif // MAINWINDOW_H

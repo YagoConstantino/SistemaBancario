@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QString>
 #include <QMessageBox>
+#include "conta.h"
 
 namespace Ui {
 class EsqueceuSenha;
@@ -29,6 +30,7 @@ private slots:
 private:
     int verificaDados();
     void closeEvent(QCloseEvent *event) override;
+    bool mudarSenha(Conta cont);
 
 
 private:
@@ -39,6 +41,7 @@ private:
     QString _NomeMae;
     QString _Senha;
     QString _ConfirmaSenha;
+    Conta *conta;
 };
 
 #endif // ESQUECEUSENHA_H

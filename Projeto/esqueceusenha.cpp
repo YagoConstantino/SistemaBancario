@@ -8,6 +8,7 @@ EsqueceuSenha::EsqueceuSenha(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::EsqueceuSenha)
     ,Login(nullptr)
+    ,conta()
 {
     ui->setupUi(this);
     setWindowTitle("Esqueceu Senha");
@@ -34,6 +35,14 @@ void EsqueceuSenha::closeEvent(QCloseEvent *event)
     event->accept();  // Aceita o fechamento
 }
 
+//Deve mudar a senha na conta local e no banco de dados, verificar a senha com regex
+bool EsqueceuSenha::mudarSenha(Conta cont)
+{
+    return false;
+}
+
+//Deve verificar se todos os dados foram passados
+
 int EsqueceuSenha::verificaDados()
 {
     if(_CPF.isEmpty() || _NomeMae.isEmpty())
@@ -55,7 +64,8 @@ int EsqueceuSenha::verificaDados()
     }
     return 1;
 }
-
+//deve verificar se o CPF existe no banco de dados e se o nome da mae bate
+//chama a função mudarSenha
 void EsqueceuSenha::ConfirmarTrocaDeSenha()
 {
     _CPF = ui->CPFtextBox->text();
