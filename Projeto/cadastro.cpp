@@ -45,10 +45,31 @@ void Cadastro::closeEvent(QCloseEvent *event)
 
 //Deve criar uma nova conta com os dados pegos na interface grafica, cadastrar no banco de dados e passar
 //para o MainWindow
-Conta Cadastro::criaConta()
+bool Cadastro::criaConta()
 {
-    Conta nova;
-    return nova;
+    /*nome = ui->NomeText->text();
+    _CPF = ui->CPFtext->text();
+    _email = ui->EmailText->text();
+    _nascimento = ui->dateEditNascimento->date();
+    _nascimento.toString("dd-MM-yyyy");
+    _nomeMae = ui->MaeText->text();
+    _Senha = ui->Senha->text();
+    _ConfirmaSenha = ui->ConfirmaSenha->text();*/
+    Conta *nova = getConta();
+    nova->setCPF(_CPF);
+    nova->setDataNascimeto(_nascimento);
+    nova->setEmail(_email);
+    nova->setNome(_nome);
+    nova->setNomeMae(_nomeMae);
+    nova->setSenha(_Senha);
+
+    return nova->CadastraContaBD();
+}
+
+Conta *Cadastro::getConta()
+{
+    MainWindow* log = qobject_cast<MainWindow*>(parentWidget());
+    return log->getConta();
 }
 
 void Cadastro::voltarLogin()
@@ -148,8 +169,10 @@ void Cadastro::ConfirmarCadastro()
     _Senha = ui->Senha->text();
     _ConfirmaSenha = ui->ConfirmaSenha->text();
 
-    if (verificaCadastro())
+    if (verificaCadastro()&& criaConta())
     {
         voltarLogin();
     }
+    else
+        qDebug ()<< "Erro ao cadastrar";
 }

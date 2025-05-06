@@ -27,6 +27,7 @@ public:
     ~MainWindow();
     bool recuperarDadosConta();
     bool verificarDadosConta(QString login,QString senha);
+    Conta* getConta();
 
 private slots:
     void Menu_Principal();

@@ -1,5 +1,7 @@
 #include "conta.h"
-
+#include <QDir>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 Conta::Conta()
 :
     nome(),
@@ -17,13 +19,17 @@ Conta::Conta()
 
 {
     bancoDeDados = QSqlDatabase::addDatabase("QSQLITE");
-    bancoDeDados.setDatabaseName("../db_Projeto.db");
+    bancoDeDados.setDatabaseName("../../db_Projeto.db");
 
     if (!bancoDeDados.open()) {
         qDebug() << "Erro ao abrir banco:" << bancoDeDados.lastError().text();
     }
     else
         qDebug() << "Banco aberto com sucesso";
+
+    qDebug() << "DB path:" << bancoDeDados.databaseName()
+             << "CWD:" << QDir::currentPath();
+
 }
 
 Conta::~Conta()
@@ -136,4 +142,103 @@ const double Conta::getCredDisponivel() const
 const QSqlDatabase Conta::getDataBase() const
 {
     return bancoDeDados;
+}
+
+bool Conta::CadastraContaBD()
+{
+    // 1) Banco aberto?
+    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir DB em CadastraContaBD:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+
+    // 2) Calcula idade…
+    QDate hoje = QDate::currentDate();
+    int idade = hoje.year() - dataNascimento.year();
+    if (hoje < QDate(hoje.year(),
+                     dataNascimento.month(),
+                     dataNascimento.day()))
+        --idade;
+
+    // 3) INSERT em Cadastro
+    {
+        QSqlQuery query(bancoDeDados);
+        const QString sql =
+            "INSERT INTO Cadastro "
+            "(CPF, Nome, NomeMae, Idade, Email, Senha, DataNascimento) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (!query.prepare(sql)) {
+            qDebug() << "Erro no prepare Cadastro:"
+                     << query.lastError().text()  // query, não outro objeto
+                     << "\nSQL =" << sql;
+            return false;
+        }
+
+        query.addBindValue(CPF);
+        query.addBindValue(nome);
+        query.addBindValue(nomeMae);
+        query.addBindValue(idade);
+        query.addBindValue(email);
+        query.addBindValue(senha);
+        query.addBindValue(dataNascimento.toString(Qt::ISODate));
+
+        if (!query.exec()) {
+            qDebug() << "Erro ao exec Cadastro:"
+                     << query.lastError().text();
+            return false;
+        }
+    }
+
+    // 4) INSERT em Credito
+    {
+        QSqlQuery queryCredito(bancoDeDados);
+        const QString sql =
+            "INSERT INTO Credito "
+            "(CPF, credito_total, fatura_atual) "
+            "VALUES (?, ?, ?)";
+        if (!queryCredito.prepare(sql)) {
+            qDebug() << "Erro no prepare Credito:"
+                     << queryCredito.lastError().text()
+                     << "\nSQL =" << sql;
+            return false;
+        }
+
+        queryCredito.addBindValue(CPF);
+        queryCredito.addBindValue(0);
+        queryCredito.addBindValue(0);
+
+
+        if (!queryCredito.exec()) {
+            qDebug() << "Erro ao exec Credito:"
+                     << queryCredito.lastError().text();
+            return false;
+        }
+    }
+
+    // 5) INSERT em Saldo
+    {
+        QSqlQuery querySaldo(bancoDeDados);
+        const QString sql =
+            "INSERT INTO Saldo "
+            "(CPF, Saldo) "
+            "VALUES (?, ?)";
+        if (!querySaldo.prepare(sql)) {
+            qDebug() << "Erro no prepare Saldo:"
+                     << querySaldo.lastError().text()
+                     << "\nSQL =" << sql;
+            return false;
+        }
+
+        querySaldo.addBindValue(CPF);
+        querySaldo.addBindValue(0);
+
+        if (!querySaldo.exec()) {
+            qDebug() << "Erro ao exec Saldo:"
+                     << querySaldo.lastError().text();
+            return false;
+        }
+    }
+
+    return true;
 }

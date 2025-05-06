@@ -54,6 +54,8 @@ public:
 
     QSqlDatabase const getDataBase()const;
 
+    bool CadastraContaBD();
+
     //Não sei se precisa de mais setters e getters, saldo, creditos , faturas e extratos serão alterados e recuperados
     // em outras funções
 

@@ -36,7 +36,8 @@ private:
 private:
     int verificaCadastro();
     void closeEvent(QCloseEvent *event) override;
-    Conta criaConta();
+    bool criaConta();
+    Conta* getConta();
 
 private slots:
     void voltarLogin();

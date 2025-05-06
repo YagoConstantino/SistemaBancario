@@ -57,6 +57,11 @@ bool MainWindow::verificarDadosConta(QString login, QString senha)
     return true;
 }
 
+Conta *MainWindow::getConta()
+{
+    return &contaAtual;
+}
+
 void MainWindow::Menu_Principal()
 {
     //Aqui deve ser feito a vericação do login e senha, se existem no banco de dados e se a senha confere
