@@ -3,6 +3,9 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <regex>
+#include <string>
+using namespace std;
 
 
 
@@ -74,24 +77,56 @@ int Cadastro::verificaCadastro()
 {
     QString dataStr = _nascimento.toString("dd/MM/yyyy");
 
+    regex padraoEmail(R"(^[A-Za-z0-9._%+]+@[A-Za-z0-9.]+\.[A-Za-z]{2,4}$)");
+    regex padraoCPF(R"(^([0-9]{3}\.?){3}-?[0-9]{2}$)");
+    regex padraoSenha(R"(^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$)");
+
+    //strings para usar no metodo do regex
+    std::string ema = _email.toStdString();
+    std::string cpf = _CPF.toStdString();
+    std::string senha  = _Senha.toStdString();
+
+    //Verifica se a senha e confirmação de senha estão vazias,
     if(_Senha.isEmpty()||_ConfirmaSenha.isEmpty())
     {
         QMessageBox::warning(this, "Erro", "Preencha a senha e a confirmação.");
         return 0;
     }
 
+    //verifica se a senha e confirma senha são iguais
     else if (_Senha != _ConfirmaSenha)
     {
         QMessageBox::warning(this, "Erro", "As senhas não coincidem.");
         return 0;
     }
 
+    //verifica se nome,cpf,email e nome da mãe não são vazios
     else if (_nome.isEmpty() || _CPF.isEmpty() || _email.isEmpty() || _nomeMae.isEmpty() )
     {
         QMessageBox::warning(this, "Erro", "Preencha todos os campos obrigatórios.");
         return 0;
     }
 
+
+    else if (!regex_match(ema,padraoEmail))
+    {
+        QMessageBox::warning(this,"Erro","Email inválido");
+        return 0;
+    }
+
+    else if (!regex_match(cpf,padraoCPF))
+    {
+        QMessageBox::warning(this,"Erro","CPF inválido");
+        return 0;
+    }
+
+    else if (!regex_match(senha,padraoSenha))
+    {
+        QMessageBox::warning(this,"Erro","Senha inválida");
+        return 0;
+    }
+
+    //Deve ser mudado para salvar todos os dados no banco de dados
     else
     {
         QString info = QString("Usuário %1  CPF: %2  Nascimento: %3  Cadastrado com sucesso!").arg(_nome, _CPF, dataStr);

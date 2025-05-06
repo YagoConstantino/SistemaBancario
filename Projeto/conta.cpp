@@ -12,10 +12,18 @@ Conta::Conta()
     faturaCredito(),
     creditoDisponivel(),
     creditoTotal(),
-    saldo()
+    saldo(),
+    bancoDeDados()
 
 {
+    bancoDeDados = QSqlDatabase::addDatabase("QSQLITE");
+    bancoDeDados.setDatabaseName("../db_Projeto.db");
 
+    if (!bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir banco:" << bancoDeDados.lastError().text();
+    }
+    else
+        qDebug() << "Banco aberto com sucesso";
 }
 
 Conta::~Conta()
@@ -69,6 +77,11 @@ const QString  Conta::getSenha() const
     return senha;
 }
 
+void Conta::setCPF(QString novoCPF)
+{
+    CPF = novoCPF;
+}
+
 void Conta::setEmail(QString novoEmail)
 {
     // verificar novo email com regex
@@ -80,9 +93,29 @@ const QString  Conta::getEmail() const
     return email;
 }
 
+const QString Conta::getExtrato() const
+{
+    return extrato;
+}
+
+void Conta::setDataNascimeto(QDate novoNascimento)
+{
+    dataNascimento = novoNascimento;
+}
+
 const QDate Conta::getNascimento() const
 {
     return dataNascimento;
+}
+
+void Conta::setSaldo(double novoSaldo)
+{
+    saldo = novoSaldo;
+}
+
+const double Conta::getSaldo() const
+{
+    return saldo;
 }
 
 const QString Conta::getCPF() const
@@ -98,4 +131,9 @@ const double Conta::getCredTotal() const
 const double Conta::getCredDisponivel() const
 {
     return creditoDisponivel;
+}
+
+const QSqlDatabase Conta::getDataBase() const
+{
+    return bancoDeDados;
 }

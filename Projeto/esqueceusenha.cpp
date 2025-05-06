@@ -2,6 +2,9 @@
 #include "ui_esqueceusenha.h"
 #include "mainwindow.h"
 #include <QCloseEvent>
+#include <regex>
+#include <string>
+using namespace std;
 
 
 EsqueceuSenha::EsqueceuSenha(QWidget *parent)
@@ -36,7 +39,7 @@ void EsqueceuSenha::closeEvent(QCloseEvent *event)
 }
 
 //Deve mudar a senha na conta local e no banco de dados, verificar a senha com regex
-bool EsqueceuSenha::mudarSenha(Conta cont)
+bool EsqueceuSenha::mudarSenha(Conta cont,QString novaSenha)
 {
     return false;
 }
@@ -45,6 +48,9 @@ bool EsqueceuSenha::mudarSenha(Conta cont)
 
 int EsqueceuSenha::verificaDados()
 {
+
+    regex padraoSenha(R"(^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$)");
+    std::string sen = _Senha.toStdString();
     if(_CPF.isEmpty() || _NomeMae.isEmpty())
     {
         QMessageBox::warning(this,"Erro","Preencha os Dados de CPF e Nome Mae");
@@ -62,6 +68,13 @@ int EsqueceuSenha::verificaDados()
         QMessageBox::warning(this,"Erro","Senhas não coincidem");
         return 0;
     }
+
+    else if (!regex_match(sen,padraoSenha))
+    {
+        QMessageBox::warning(this,"Erro","Senha inválida");
+        return 0;
+    }
+    // return mudaSenha(Conta cont,QString novaSenha)
     return 1;
 }
 //deve verificar se o CPF existe no banco de dados e se o nome da mae bate

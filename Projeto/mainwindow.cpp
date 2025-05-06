@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <regex>
+#include <string>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,15 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->EsqueceuSenha,SIGNAL(clicked()),this,SLOT(AbrirEsqueceuSenha()));
     connect(ui->MostrarSenha,SIGNAL(clicked(bool)),this,SLOT(mostrarSenha(bool)));
 
-    //Teste mudar mais adiante no projeto
-    QSqlDatabase bancoDeDados = QSqlDatabase::addDatabase("QSQLITE");
-    bancoDeDados.setDatabaseName("../db_Projeto.db");
-
-    if (!bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir banco:" << bancoDeDados.lastError().text();
-    }
-    else
-        qDebug() << "Banco aberto com sucesso";
 }
 
 MainWindow::~MainWindow()
@@ -45,7 +40,21 @@ bool MainWindow::recuperarDadosConta()
 //deve tambem chamar a recuperarDadosConta
 bool MainWindow::verificarDadosConta(QString login, QString senha)
 {
-    return false;
+
+    string log = login.toStdString();
+    string sen = senha.toStdString();
+
+    regex padraoCPF(R"(^([0-9]{3}\.?){3}-?[0-9]{2}$)");
+    regex padraoSenha(R"(^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$)");
+
+    if(!regex_match(log,padraoCPF) || !regex_match(sen,padraoSenha))
+    {
+        return false;
+    }
+
+    //Além dessa verificação devemos verificar no banco de dados se o login(CPF) existe e se a senha bate
+
+    return true;
 }
 
 void MainWindow::Menu_Principal()
@@ -53,10 +62,18 @@ void MainWindow::Menu_Principal()
     //Aqui deve ser feito a vericação do login e senha, se existem no banco de dados e se a senha confere
     //para dai então ir para o menuPrincipal, aqui(mainWindow) ou la deve ser armazenado o CPF ou ID
     //ou primarykey da conta para usarmos no conector do banco de dados, ou seja so armazenamos um dado
+    _CPFlogin = ui->Login->text();
+    _SenhaLogin = ui->Senha->text();
 
-    _MenuPrin = new MenuPrincipal(this);
-    _MenuPrin->show();
-    hide();
+    if (verificarDadosConta(_CPFlogin,_SenhaLogin))
+    {
+        _MenuPrin = new MenuPrincipal(this);
+        _MenuPrin->show();
+        hide();
+    }
+    else
+        QMessageBox::warning(this,"Erro","Login ou senha inválidos");
+
 }
 
 void MainWindow::AbrirCadastro()

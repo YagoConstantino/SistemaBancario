@@ -30,7 +30,7 @@ private slots:
 private:
     int verificaDados();
     void closeEvent(QCloseEvent *event) override;
-    bool mudarSenha(Conta cont);
+    bool mudarSenha(Conta cont,QString novaSenha);
 
 
 private:
