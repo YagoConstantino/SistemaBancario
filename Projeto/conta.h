@@ -49,8 +49,13 @@ public:
     void setSaldo(double novoSaldo);
     const double getSaldo()const;
 
+    void setCreditoTotal(double novoCredTotal);
     const double getCredTotal()const;
+
     const double getCredDisponivel()const;
+
+    void setFaturaCred(double novaFatCred);
+    double const getFaturaCred()const;
 
     QSqlDatabase const getDataBase()const;
 

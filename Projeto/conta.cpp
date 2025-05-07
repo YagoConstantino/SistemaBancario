@@ -124,6 +124,12 @@ const double Conta::getSaldo() const
     return saldo;
 }
 
+void Conta::setCreditoTotal(double novoCredTotal)
+{
+    creditoTotal = novoCredTotal;
+    creditoDisponivel = creditoTotal - faturaCredito;
+}
+
 const QString Conta::getCPF() const
 {
     return CPF;
@@ -139,6 +145,16 @@ const double Conta::getCredDisponivel() const
     return creditoDisponivel;
 }
 
+void Conta::setFaturaCred(double novaFatCred)
+{
+    faturaCredito = novaFatCred;
+}
+
+const double Conta::getFaturaCred() const
+{
+    return faturaCredito;
+}
+
 const QSqlDatabase Conta::getDataBase() const
 {
     return bancoDeDados;
@@ -146,6 +162,13 @@ const QSqlDatabase Conta::getDataBase() const
 
 bool Conta::CadastraContaBD()
 {
+    setSaldo(0.0);
+    creditoDisponivel = 0.0;
+    creditoTotal = 0.0;
+    faturaCredito = 0.0;
+    extrato = "";
+
+
     // 1) Banco aberto?
     if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
         qDebug() << "Erro ao abrir DB em CadastraContaBD:"

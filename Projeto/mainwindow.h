@@ -34,6 +34,8 @@ private slots:
     void AbrirCadastro();
     void AbrirEsqueceuSenha();
     void mostrarSenha(bool checked);
+    bool verificaContaExiste();
+    bool recuperaDadosBanco();
 
 private:
     Ui::MainWindow *ui;
