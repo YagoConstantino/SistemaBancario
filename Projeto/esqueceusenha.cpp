@@ -4,6 +4,7 @@
 #include <QCloseEvent>
 #include <regex>
 #include <string>
+#include <QSqlQuery>
 using namespace std;
 
 
@@ -38,10 +39,79 @@ void EsqueceuSenha::closeEvent(QCloseEvent *event)
     event->accept();  // Aceita o fechamento
 }
 
-//Deve mudar a senha na conta local e no banco de dados, verificar a senha com regex
-bool EsqueceuSenha::mudarSenha(Conta cont,QString novaSenha)
+//Funciona, provavelmente pode ser refatorado para mostrar na tela que deu erro
+int EsqueceuSenha::mudarSenha()
 {
-    return false;
+    //Verifica se o cpf existe no banco de dados
+    QString cpf = ui->CPFtextBox->text();
+    QString nomeMamae = ui->MaeTextBox->text();
+    QString senha = ui->SenhaTextBox->text();
+
+    Conta *contaAtual = getConta();
+    QSqlDatabase BD = contaAtual->getDataBase();
+
+    QSqlQuery queryCPF(BD);
+    queryCPF.prepare(R"(
+        SELECT NomeMae
+        FROM Cadastro
+        WHERE CPF = ?
+    )");
+
+    queryCPF.addBindValue(cpf);
+
+    if (!queryCPF.exec())
+    {
+        qDebug() << "Erro ao executar mudarSenha EsqueceuSenha:"
+                 << queryCPF.lastError().text();
+
+        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
+        return 0;
+    }
+
+    if (!queryCPF.next()) {
+        qDebug() << "Nenhum registro encontrado para CPF EsqueceuSenha: " << cpf;
+        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
+        return 0;
+    }
+
+     //Verificar se o nome da mae passado é igual ao no banco
+    QString nomeRecuperado = queryCPF.value(0).toString();
+
+    if(nomeMamae != nomeRecuperado)
+    {
+        qDebug()<< "Nome da mae não bate com o registrado no BD";
+        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
+        return 0;
+    }
+
+    //atualizar a senha
+    QSqlQuery querySenha(BD);
+
+    querySenha.prepare(R"(
+    UPDATE Cadastro
+    SET Senha = ?
+    WHERE CPF = ?
+
+    )");
+
+    querySenha.addBindValue(senha);
+    querySenha.addBindValue(cpf);
+
+    if(!querySenha.exec())
+    {
+        qDebug() << "Erro ao na execução mudar a senha em Mudar senha de Esqueceu senha";
+        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
+        return 0;
+    }
+
+    contaAtual->setSenha(senha);
+    return 1;
+}
+
+Conta *EsqueceuSenha::getConta()
+{
+    MainWindow* log = qobject_cast<MainWindow*>(parentWidget());
+    return log->getConta();
 }
 
 //Deve verificar se todos os dados foram passados
@@ -74,8 +144,9 @@ int EsqueceuSenha::verificaDados()
         QMessageBox::warning(this,"Erro","Senha inválida");
         return 0;
     }
-    // return mudaSenha(Conta cont,QString novaSenha)
-    return 1;
+
+    return mudarSenha();
+
 }
 //deve verificar se o CPF existe no banco de dados e se o nome da mae bate
 //chama a função mudarSenha

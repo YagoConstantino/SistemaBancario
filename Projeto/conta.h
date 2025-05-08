@@ -14,10 +14,6 @@ public:
     Conta();
     ~Conta();
 
-    double getSaldo();
-    double getFaturaCred();
-    QString getExtrato();
-
     //Nao foram implementadas, se relacionam com o banco de dados e devem atualizar dados da conta local
     bool fazerSaque(double qtdSaque);
     bool fazerDepostido(double qtdDeposito);
@@ -58,6 +54,10 @@ public:
     double const getFaturaCred()const;
 
     QSqlDatabase const getDataBase()const;
+
+    double getSaldo();
+    double getFaturaCred();
+    QString getExtrato();
 
     bool CadastraContaBD();
 

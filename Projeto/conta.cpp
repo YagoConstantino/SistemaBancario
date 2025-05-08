@@ -27,14 +27,11 @@ Conta::Conta()
     else
         qDebug() << "Banco aberto com sucesso";
 
-    qDebug() << "DB path:" << bancoDeDados.databaseName()
-             << "CWD:" << QDir::currentPath();
-
 }
 
 Conta::~Conta()
 {
-
+    bancoDeDados.close();
 }
 
 double Conta::getSaldo()
