@@ -34,6 +34,75 @@ Conta::~Conta()
     bancoDeDados.close();
 }
 
+bool Conta::fazerSaque(double qtdSaque)
+{
+    if(qtdSaque > saldo) return false;
+    if(qtdSaque < 0) return false;
+    //Atualiza localmente
+    saldo -= qtdSaque;
+
+    //Verifica se o Banco de Dados ta aberto
+    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir DB em FazerSaque Conta:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+
+    //Atualiza no Banco de Dados
+    QSqlQuery query(bancoDeDados);
+    query.prepare(R"(
+    UPDATE Saldo
+    set Saldo = ?
+    where CPF = ?
+    )");
+
+    query.addBindValue(saldo);
+    query.addBindValue(CPF);
+
+    if(!query.exec())
+    {
+        qDebug()<<"Erro na execução da query em fazerSaque Conta : " << query.lastError().text();
+        return false;
+    }
+
+    return true;
+
+}
+
+bool Conta::fazerDeposito(double qtdDeposito)
+{
+    if(qtdDeposito < 0) return false;
+    //Atualiza localmente
+    saldo += qtdDeposito;
+
+    //Verifica se o Banco de Dados ta aberto
+    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir DB em FazerDeposito Conta:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+
+    //Atualiza no Banco de Dados
+    QSqlQuery query(bancoDeDados);
+    query.prepare(R"(
+    UPDATE Saldo
+    set Saldo = ?
+    where CPF = ?
+    )");
+
+    query.addBindValue(saldo);
+    query.addBindValue(CPF);
+
+    if(!query.exec())
+    {
+        qDebug()<<"Erro na execução da query em fazerDeposito Conta : " << query.lastError().text();
+        return false;
+    }
+
+    return true;
+
+}
+
 double Conta::getSaldo()
 {
     return saldo;

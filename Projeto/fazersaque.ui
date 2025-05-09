@@ -26,7 +26,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="QtdSaque"/>
+        <widget class="QLineEdit" name="QuantidadeSaque"/>
        </item>
       </layout>
      </item>

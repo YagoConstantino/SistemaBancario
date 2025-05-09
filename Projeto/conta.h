@@ -16,7 +16,7 @@ public:
 
     //Nao foram implementadas, se relacionam com o banco de dados e devem atualizar dados da conta local
     bool fazerSaque(double qtdSaque);
-    bool fazerDepostido(double qtdDeposito);
+    bool fazerDeposito(double qtdDeposito);
     bool fazerTransf(double qtdTransf,QString cpfReceptor);
     bool pagarFaturaCredito(double qtdPagamento);
     bool encerrarConta();

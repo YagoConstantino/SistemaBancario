@@ -44,6 +44,7 @@ qt_add_executable(Projeto
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     conta.h conta.cpp
+    confirmarsenha.h confirmarsenha.cpp confirmarsenha.ui
 )
 
 # Link com as bibliotecas do Qt
