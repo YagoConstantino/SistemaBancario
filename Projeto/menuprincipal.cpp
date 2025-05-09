@@ -32,6 +32,12 @@ MenuPrincipal::~MenuPrincipal()
     delete ui;
 }
 
+Conta *MenuPrincipal::getConta()
+{
+    MainWindow* login = qobject_cast<MainWindow*>(parentWidget());
+    return login->getConta();
+}
+
 void MenuPrincipal::closeEvent(QCloseEvent *event)
 {
     Login = qobject_cast<MainWindow*>(parentWidget());

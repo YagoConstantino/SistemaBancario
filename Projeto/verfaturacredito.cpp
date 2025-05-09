@@ -18,6 +18,8 @@ VerFaturaCredito::VerFaturaCredito(QWidget *parent)
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
     connect(ui->PagarButton,SIGNAL(clicked()),this,SLOT(pagarFatura()));
+
+    setarDadosCredito();
 }
 
 VerFaturaCredito::~VerFaturaCredito()
@@ -39,6 +41,22 @@ void VerFaturaCredito::closeEvent(QCloseEvent *event)
         MenuPrin->show();
 
     event->accept();
+}
+
+void VerFaturaCredito::setarDadosCredito()
+{
+    MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
+    double credDisp = menu->getConta()->getCredDisponivel();
+    double credTotal = menu->getConta()->getCredTotal();
+    double fatura = menu->getConta()->getFaturaCred();
+
+    QString dispTXT = QString::number(credDisp,'l',2);
+    QString totalTXT = QString::number(credTotal,'l',2);
+    QString fatTXT = QString::number(fatura,'l',2);
+
+    ui->CredDispTxt->setText(dispTXT);
+    ui->CredTotalTxt->setText(totalTXT);
+    ui->FaturaTxt->setText(fatTXT);
 }
 
 void VerFaturaCredito::pagarFatura()

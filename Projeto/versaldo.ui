@@ -6,40 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>148</width>
-    <height>76</height>
+    <width>347</width>
+    <height>236</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Saldo</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="SaldoText"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="Sair">
-       <property name="text">
-        <string>Sair</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>70</y>
+     <width>201</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string> Saldo Disponivel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="SaldoText">
+        <property name="text">
+         <string>000000</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Sair">
+      <property name="text">
+       <string>Sair</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

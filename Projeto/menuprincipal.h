@@ -9,6 +9,7 @@
 #include "verextrato.h"
 #include "encerrarconta.h"
 #include "versaldo.h"
+#include "conta.h"
 
 namespace Ui { class MenuPrincipal; }
 class MainWindow;
@@ -20,6 +21,7 @@ class MenuPrincipal : public QDialog
 public:
     explicit MenuPrincipal(QWidget *parent = nullptr);
     ~MenuPrincipal();
+    Conta *getConta();
 
 private slots:
     void voltarLogin();

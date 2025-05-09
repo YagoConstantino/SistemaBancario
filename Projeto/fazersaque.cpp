@@ -30,6 +30,11 @@ void FazerSaque::voltarMenu()
     close();
 }
 
+void FazerSaque::confirmarSenha()
+{
+
+}
+
 void FazerSaque::closeEvent(QCloseEvent *event)
 {
     MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
@@ -39,7 +44,4 @@ void FazerSaque::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-void FazerSaque::confirmarSenha()
-{
 
-}

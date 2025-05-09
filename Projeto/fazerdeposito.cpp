@@ -44,3 +44,5 @@ void FazerDeposito::closeEvent(QCloseEvent *event)
 void FazerDeposito::confirmarSenha()
 {
 }
+
+
