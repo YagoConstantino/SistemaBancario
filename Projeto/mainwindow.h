@@ -28,6 +28,7 @@ public:
     bool recuperarDadosConta();
     bool verificarDadosConta(QString login,QString senha);
     Conta* getConta();
+    void clearTexto();
 
 private slots:
     void Menu_Principal();

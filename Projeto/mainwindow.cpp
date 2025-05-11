@@ -65,6 +65,12 @@ Conta *MainWindow::getConta()
     return &contaAtual;
 }
 
+void MainWindow::clearTexto()
+{
+    ui->Login->clear();
+    ui->Senha->clear();
+}
+
 void MainWindow::Menu_Principal()
 {
     //Aqui deve ser feito a vericação do login e senha, se existem no banco de dados e se a senha confere

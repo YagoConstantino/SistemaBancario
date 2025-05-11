@@ -65,6 +65,23 @@ bool Conta::fazerSaque(double qtdSaque)
         return false;
     }
 
+    QString extrato = QString("- %1 R$").arg(QString::number(qtdSaque, 'f', 2));
+    QString hoje = QDate::currentDate().toString(Qt::ISODate);
+    QSqlQuery queryExtrato(bancoDeDados);
+    queryExtrato.prepare(R"(
+    INSERT INTO TransacoesSaidas
+    (CPF,valorTransacao,dataTransacao)
+    VALUES (?,?,?)
+    )");
+
+    queryExtrato.addBindValue(CPF);
+    queryExtrato.addBindValue(extrato);
+    queryExtrato.addBindValue(hoje);
+    if(!queryExtrato.exec())
+    {
+        qDebug() << "Erro na execução da query de extrato em FazerSaque Ccnta "<< queryExtrato.lastError().text();
+    }
+
     return true;
 
 }
@@ -98,6 +115,24 @@ bool Conta::fazerDeposito(double qtdDeposito)
         qDebug()<<"Erro na execução da query em fazerDeposito Conta : " << query.lastError().text();
         return false;
     }
+
+    QString extrato = QString("+ %1 R$").arg(QString::number(qtdDeposito, 'f', 2));
+    QString hoje = QDate::currentDate().toString(Qt::ISODate);
+    QSqlQuery queryExtrato(bancoDeDados);
+    queryExtrato.prepare(R"(
+    INSERT INTO TransacoesEntrada
+    (CPF,valorTransacao,dataTransacao)
+    VALUES (?,?,?)
+    )");
+
+    queryExtrato.addBindValue(CPF);
+    queryExtrato.addBindValue(extrato);
+    queryExtrato.addBindValue(hoje);
+    if(!queryExtrato.exec())
+    {
+        qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
+    }
+
 
     return true;
 
