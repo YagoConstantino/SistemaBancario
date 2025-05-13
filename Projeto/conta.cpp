@@ -390,6 +390,12 @@ bool Conta::pagarFaturaCredito(double qtdPagamento){
     query.addBindValue(saldo);
     query.addBindValue(CPF);
 
+    if(!query.exec())
+    {
+        qDebug()<<"Erro na execução da query em pagarFaturaCredito Conta : " << query.lastError().text();
+        return false;
+    }
+
     // Credito
     query.prepare(R"(
     UPDATE Credito
