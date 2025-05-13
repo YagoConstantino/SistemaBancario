@@ -18,7 +18,6 @@ public:
     bool fazerSaque(double qtdSaque);
     bool fazerDeposito(double qtdDeposito);
     bool fazerTransf(double qtdTransf,QString cpfReceptor);
-    bool pagarFaturaCredito(double qtdPagamento);
     bool encerrarConta();
     //////////////////////////////////////////////////////////////////
 
@@ -60,6 +59,7 @@ public:
     QString getExtrato();
 
     bool CadastraContaBD();
+    bool pagarFaturaCredito(double qtdPagamento);
 
     //Não sei se precisa de mais setters e getters, saldo, creditos , faturas e extratos serão alterados e recuperados
     // em outras funções

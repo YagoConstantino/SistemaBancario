@@ -2,6 +2,7 @@
 #define VERFATURACREDITO_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include "conta.h"
 
 namespace Ui {

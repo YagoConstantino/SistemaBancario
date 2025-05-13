@@ -1,6 +1,7 @@
 #include "verfaturacredito.h"
 #include "ui_verfaturacredito.h"
 #include "menuprincipal.h"
+#include "confirmarsenha.h"
 #include <qevent.h>
 
 VerFaturaCredito::VerFaturaCredito(QWidget *parent)
@@ -62,4 +63,42 @@ void VerFaturaCredito::setarDadosCredito()
 void VerFaturaCredito::pagarFatura()
 {
     // Criar uma janela parecida com a do deposito, pegar a quantidade e alterar no saldo e fatura no banco de dados
+    MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
+
+    // Verifica os valores inseridos para pagar a fatura
+    bool ok = false;
+    QtdPagar = ui->QtdPagarText->text().toDouble(&ok);
+
+    if(!ok){
+        QMessageBox::warning(this, "Erro", "Entrada de valor inválido");
+        return;
+    }
+    else if(QtdPagar < 0.f){
+        QMessageBox::warning(this, "Erro", "Valores negativos não são permitidos");
+        return;
+    }
+    else if(QtdPagar > MenuPrin->getConta()->getSaldo()){
+        QMessageBox::warning(this, "Erro", "Valor inserido maior do que o saldo da conta");
+        return;
+    }
+    else if(QtdPagar > MenuPrin->getConta()->getFaturaCred()){
+        QMessageBox::warning(this, "Erro", "Valor inserido maior do que a fatura");
+        return;
+    }
+
+    ConfirmarSenha dlg(MenuPrin);
+    // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
+    if(dlg.exec() == QDialog::Accepted)
+    {
+        if(MenuPrin->getConta()->pagarFaturaCredito(QtdPagar))
+        {
+            QMessageBox::information(this,"Sucesso","Pagamento feito com Sucesso");
+        }
+        else
+        {
+            QMessageBox::information(this,"Erro","Pagamento não concluido");
+        }
+        //mostrar mensagem de sucesso ??
+        voltarMenu();
+    }
 }

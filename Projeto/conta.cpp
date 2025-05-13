@@ -366,3 +366,65 @@ bool Conta::CadastraContaBD()
 
     return true;
 }
+
+bool Conta::pagarFaturaCredito(double qtdPagamento){
+    saldo -= qtdPagamento;
+    faturaCredito -= qtdPagamento;
+
+    // Verifica se o Banco de Dados ta aberto
+    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir DB em FazerSaque Conta:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+
+    // Atualiza no Banco de Dados:
+    // Saldo
+    QSqlQuery query(bancoDeDados);
+    query.prepare(R"(
+    UPDATE Saldo
+    set Saldo = ?
+    where CPF = ?
+    )");
+
+    query.addBindValue(saldo);
+    query.addBindValue(CPF);
+
+    // Credito
+    query.prepare(R"(
+    UPDATE Credito
+    set fatura_atual = ?
+    where CPF = ?
+    )");
+
+    query.addBindValue(faturaCredito);
+    query.addBindValue(CPF);
+
+    if(!query.exec())
+    {
+        qDebug()<<"Erro na execução da query em pagarFaturaCredito Conta : " << query.lastError().text();
+        return false;
+    }
+
+    // Atualiza extrato
+
+    QString extrato = QString("- %1 R$").arg(QString::number(qtdPagamento, 'f', 2));
+    QString hoje = QDate::currentDate().toString(Qt::ISODate);
+    QSqlQuery queryExtrato(bancoDeDados);
+    queryExtrato.prepare(R"(
+    INSERT INTO TransacoesSaidas
+    (CPF,valorTransacao,dataTransacao)
+    VALUES (?,?,?)
+    )");
+
+    queryExtrato.addBindValue(CPF);
+    queryExtrato.addBindValue(extrato);
+    queryExtrato.addBindValue(hoje);
+
+    if(!queryExtrato.exec())
+    {
+        qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
+    }
+
+    return true;
+}
