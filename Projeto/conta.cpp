@@ -2,6 +2,7 @@
 #include <QDir>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QMessageBox>
 Conta::Conta()
 :
     nome(),
@@ -131,11 +132,135 @@ bool Conta::fazerDeposito(double qtdDeposito)
     if(!queryExtrato.exec())
     {
         qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
+        return false;
     }
 
 
     return true;
 
+}
+
+bool Conta::fazerTransf(double qtdTransf, QString cpfReceptor)
+{
+
+    saldo -= qtdTransf;
+
+    //Verificar se o cpf receptor existe e recuperar seu saldo atual
+    QSqlQuery querySaldoReceptora(bancoDeDados);
+
+    querySaldoReceptora.prepare(R"(
+        SELECT Saldo
+        FROM Saldo
+        WHERE CPF = ?
+
+    )");
+
+    querySaldoReceptora.addBindValue(cpfReceptor);
+
+    if(!querySaldoReceptora.exec())
+    {
+        qDebug() << "Erro em recuperar o Saldo da conta Receptora em fazerTransferencia em conta: "
+                 << querySaldoReceptora.lastError().text();
+        return false;
+    }
+    if(!querySaldoReceptora.next())
+    {
+        qDebug() << "CPF não encontrado EM Transferencia conta:" << cpfReceptor;
+        return false;
+    }
+
+    double saldoReceptora = querySaldoReceptora.value(0).toDouble();
+    saldoReceptora += qtdTransf;
+
+
+    if(!bancoDeDados.open() && !bancoDeDados.isOpen())
+    {
+        qDebug() << "Erro ao Abrir Banco de Dados em fazerTransf Conta"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+
+    //atualizar saldo na conta transmissora
+    QSqlQuery querySaldoTrans(bancoDeDados);
+
+    querySaldoTrans.prepare(R"(
+    UPDATE Saldo
+    SET Saldo = ?
+    WHERE CPF = ?
+    )");
+
+    querySaldoTrans.addBindValue(saldo);
+    querySaldoTrans.addBindValue(CPF);
+
+    if(!querySaldoTrans.exec())
+    {
+        qDebug()<<"Erro na execução da query em fazerTransf Conta : "
+                 << querySaldoTrans.lastError().text();
+        return false;
+    }
+
+    //atualizar em transações saida da conta transmissora
+    QSqlQuery queryExtratoTrans(bancoDeDados);
+    QString extratoSaida = QString("- %1 R$").arg(QString::number(qtdTransf, 'f', 2));
+    QString hoje = QDate::currentDate().toString(Qt::ISODate);
+
+    queryExtratoTrans.prepare(R"(
+    INSERT INTO TransacoesSaidas
+    (CPF,valorTransacao,dataTransacao)
+    VALUES (?,?,?)
+    )");
+
+    queryExtratoTrans.addBindValue(CPF);
+    queryExtratoTrans.addBindValue(extratoSaida);
+    queryExtratoTrans.addBindValue(hoje);
+    if(!queryExtratoTrans.exec())
+    {
+        qDebug() << "Erro na execução da query de extrato em fazerTransferencia Conta "
+                 << queryExtratoTrans.lastError().text();
+        return false;
+    }
+
+    //atualizar saldo na conta receptora
+
+    QSqlQuery queryAtualizaSaldoRec(bancoDeDados);
+
+    queryAtualizaSaldoRec.prepare(R"(
+    UPDATE Saldo
+    SET Saldo = ?
+    WHERE CPF = ?
+    )");
+
+    queryAtualizaSaldoRec.addBindValue(saldoReceptora);;
+    queryAtualizaSaldoRec.addBindValue(cpfReceptor);
+
+    if(!queryAtualizaSaldoRec.exec())
+    {
+        qDebug () << "Erro ao atualizar o saldo da conta recptora em FazerTransferencia em conta :"
+                 << queryAtualizaSaldoRec.lastError().text();
+
+        return false;
+    }
+    //atualizar em transações de entrada da conta receptora
+    QSqlQuery queryExtratoEntrada(bancoDeDados);
+    QString extratoEntrada = QString("+ %1 R$").arg(QString::number(qtdTransf, 'f', 2));
+
+    queryExtratoEntrada.prepare(R"(
+    INSERT INTO TransacoesEntrada
+    (CPF,valorTransacao,dataTransacao)
+    VALUES (?,?,?)
+    )");
+    queryExtratoEntrada.addBindValue(cpfReceptor);
+    queryExtratoEntrada.addBindValue(extratoEntrada);
+    queryExtratoEntrada.addBindValue(hoje);
+
+    if(!queryExtratoEntrada.exec())
+    {
+        qDebug() << "Erro ao salvar extrato de Entrada em fazer Transferencia em conta : "
+                 << queryExtratoEntrada.lastError().text();
+        return false;
+    }
+
+    return true;
 }
 
 double Conta::getSaldo()

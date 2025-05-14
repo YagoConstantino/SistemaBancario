@@ -1,6 +1,7 @@
 #include "fazertransferencia.h"
 #include "ui_fazertransferencia.h"
 #include "menuprincipal.h"
+#include "confirmarsenha.h"
 #include <qevent.h>
 
 FazerTransferencia::FazerTransferencia(QWidget *parent)
@@ -42,5 +43,31 @@ void FazerTransferencia::closeEvent(QCloseEvent *event)
 
 void FazerTransferencia::confirmarSenha()
 {
+    MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
+    QString cpfReceptor = ui->DestinoText->text();
+    QtdTransferencia = ui->QtdValor->text().toDouble();
+    double saldo = menu->getConta()->getSaldo();
+    if(QtdTransferencia > saldo)
+    {
+        QMessageBox::information(this,"Erro","Saldo insuficiente para a Transferência");
+        return;
+    }
 
+    if(QtdTransferencia < 0)
+    {
+        QMessageBox::information(this,"Erro","Valores Negativos não são permitidos em Transferências");
+        ui->QtdValor->clear();
+        return;
+    }
+
+    ConfirmarSenha dlg(menu);
+    // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
+    if(dlg.exec() == QDialog::Accepted)
+    {
+        if(menu->getConta()->fazerTransf(QtdTransferencia,cpfReceptor))
+        {
+            QMessageBox::information(this,"Sucesso","Transferencia feita com Sucesso");
+        }
+        voltarMenu();
+    }
 }
