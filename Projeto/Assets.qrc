@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/Assets">
+        <file>Assets/Bank.png</file>
+        <file>Assets/cadastro (1).png</file>
+        <file>Assets/cadastro.png</file>
+        <file>Assets/deposito.png</file>
+        <file>Assets/download.png</file>
+        <file>Assets/editar.png</file>
+        <file>Assets/excluir.png</file>
+        <file>Assets/novo-documento.png</file>
+        <file>Assets/transferir.png</file>
+        <file>Assets/transferir-dinheiro.png</file>
+        <file>Assets/troca-de-dinheiro.png</file>
+    </qresource>
+</RCC>
