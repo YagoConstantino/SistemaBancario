@@ -273,11 +273,6 @@ double Conta::getFaturaCred()
     return faturaCredito;
 }
 
-QString Conta::getExtrato()
-{
-    return extrato;
-}
-
 void Conta::setNome(QString novoNome)
 {
     nome = novoNome;
@@ -325,8 +320,9 @@ const QString  Conta::getEmail() const
     return email;
 }
 
-const QString Conta::getExtrato() const
+const QString Conta::getExtrato()
 {
+    atualizaExtratoLocal();
     return extrato;
 }
 
@@ -558,4 +554,103 @@ bool Conta::pagarFaturaCredito(double qtdPagamento){
     }
 
     return true;
+}
+
+void Conta::atualizaExtratoLocal(){
+    struct Registro{
+        QString valor;
+        QDate data;
+    };
+
+    std::vector<Registro> registros;
+    registros.reserve(50);
+
+    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
+    {
+        qDebug() << "Erro ao abrir BD em atualizar extrato: "
+                 << bancoDeDados.lastError().text();
+        return;
+    }
+
+    QSqlQuery query(bancoDeDados);
+
+    // Relativo as transacoes de entrada
+
+    query.prepare
+    (
+        R"(
+        SELECT valorTransacao, dataTransacao
+        FROM TransacoesEntrada
+        WHERE CPF = ?
+        )"
+    );
+
+    query.addBindValue(CPF);
+
+    if (!query.exec())
+    {
+        qDebug() << "Erro ao executar atualizar extrato:"
+                 << query.lastError().text();
+        return;
+    }
+
+    // Enquanto houver linhas e não ultrapassar o limite
+    int i = 0;
+    while(query.next() && i < 25){
+
+        // Adiciona as transacoes de entradas
+        Registro r;
+        r.valor = query.value(0).toString();
+        r.data = query.value(1).toDate();
+        registros.push_back(r);
+
+        i++;
+    }
+
+    // Relativo as transacoes de saida
+
+    query.prepare
+    (
+        R"(
+        SELECT valorTransacao, dataTransacao
+        FROM TransacoesSaidas
+        WHERE CPF = ?
+        )"
+    );
+
+    query.addBindValue(CPF);
+
+    if (!query.exec())
+    {
+        qDebug() << "Erro ao executar atualizar extrato:"
+                 << query.lastError().text();
+        return;
+    }
+
+    // Enquanto houver linhas e não ultrapassar o limite
+    while(query.next() && i < 50){
+
+        // Adiciona as transacoes de saidas
+        Registro r;
+        r.valor = query.value(0).toString();
+        r.data = query.value(1).toDate();
+        registros.push_back(r);
+
+        i++;
+    }
+
+    // Ordenar todas as transações por data decrescente
+    std::sort(registros.begin(), registros.end(), [](const Registro &a, const Registro &b) {
+        return a.data > b.data;
+    });
+
+    // Forma o novo extrato
+    QString extratoNovo;
+
+    size_t tam = registros.size();
+    for(int k = 0; k < tam; k++)
+        extratoNovo.append(registros[k].valor + "; Data: " + registros[k].data.toString("dd/MM/yyyy") + '\n');
+
+    // Atualiza
+    extrato = extratoNovo;
 }

@@ -1,5 +1,6 @@
 #ifndef CONTA_H
 #define CONTA_H
+#include <vector>
 #include <QString>
 #include <QDate>
 #include <QSql>
@@ -36,8 +37,6 @@ public:
     void setEmail(QString novoEmail);
     const QString getEmail()const;
 
-    const QString getExtrato()const;
-
     void setDataNascimeto(QDate novoNascimento);
     const QDate getNascimento() const ;
 
@@ -56,7 +55,8 @@ public:
 
     double getSaldo();
     double getFaturaCred();
-    QString getExtrato();
+    const QString getExtrato();
+    void atualizaExtratoLocal();
 
     bool CadastraContaBD();
     bool pagarFaturaCredito(double qtdPagamento);

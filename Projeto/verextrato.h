@@ -27,6 +27,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+    void setarExtrato();
 
 };
 

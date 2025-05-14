@@ -14,6 +14,7 @@ VerExtrato::VerExtrato(QWidget *parent)
     setWindowTitle("Ver Extrato");
     setAttribute(Qt::WA_DeleteOnClose);
 
+    setarExtrato();
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
 }
@@ -37,4 +38,12 @@ void VerExtrato::closeEvent(QCloseEvent *event)
         MenuPrin->show();
 
     event->accept();
+}
+
+void VerExtrato::setarExtrato(){
+    MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
+
+    QString extrato = MenuPrin->getConta()->getExtrato();
+
+    ui->textEdit->setPlainText(extrato);
 }
