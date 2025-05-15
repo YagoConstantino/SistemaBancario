@@ -144,6 +144,12 @@ bool Conta::fazerTransf(double qtdTransf, QString cpfReceptor)
 {
 
     saldo -= qtdTransf;
+    //verificar se abriu o banco de dados
+    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
+        qDebug() << "Erro ao abrir DB em FazerTransf Conta:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
 
     //Verificar se o cpf receptor existe e recuperar seu saldo atual
     QSqlQuery querySaldoReceptora(bancoDeDados);
@@ -257,6 +263,109 @@ bool Conta::fazerTransf(double qtdTransf, QString cpfReceptor)
     {
         qDebug() << "Erro ao salvar extrato de Entrada em fazer Transferencia em conta : "
                  << queryExtratoEntrada.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+bool Conta::encerrarConta()
+{
+    //verificar se o saldo é = 0   //verificar se a fatura é = 0
+    if(saldo!= 0 || faturaCredito != 0)
+    {
+        qDebug() << "Erro Para encerrar sua conta deve sacar todo seu saldo não ter uma fatura pendente";
+        return false;
+    }
+
+    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
+    {
+        qDebug()<<"Erro ao abrir banco de dados em encerrarConta em Conta: "
+                 <<bancoDeDados.lastError().text();
+        return false;
+    }
+
+    //apagar de Cadastro
+    QSqlQuery queryCadastro(bancoDeDados);
+
+    queryCadastro.prepare(R"(
+    DELETE FROM Cadastro
+    WHERE CPF = ?
+    )");
+
+    queryCadastro.addBindValue(CPF);
+
+    if(!queryCadastro.exec())
+    {
+        qDebug()<<"Erro na execução do delete em Cadastro no EncerrarConta em Conta: "
+                 <<queryCadastro.lastError().text();
+
+        return false;
+    }
+
+    //apagar de Saldo
+    QSqlQuery querySaldo(bancoDeDados);
+
+    querySaldo.prepare(R"(
+    DELETE FROM Saldo
+    WHERE CPF = ?
+
+    )");
+
+    querySaldo.addBindValue(CPF);
+
+    if(!querySaldo.exec())
+    {
+        qDebug()<<"Erro na execução do Delete em Saldo no encerrarConta em Conta: "
+                 <<querySaldo.lastError().text();
+        return false;
+    }
+    //apagar de Credito
+    QSqlQuery queryCredito(bancoDeDados);
+
+    queryCredito.prepare(R"(
+    DELETE FROM CREDITO
+    WHERE CPF = ?
+    )");
+
+    queryCredito.addBindValue(CPF);
+
+    if(!queryCredito.exec())
+    {
+        qDebug () <<"Erro ao executar o DELETE em Credito em encerrarConta na Conta: "
+                 <<queryCredito.lastError().text();
+        return false;
+    }
+
+    // apagar de TransacoesEntrada
+    QSqlQuery queryTrasEntra(bancoDeDados);
+    queryTrasEntra.prepare(R"(
+    DELETE FROM TransacoesEntrada
+    WHERE CPF = ?
+    )");
+
+    queryTrasEntra.addBindValue(CPF);
+
+    if(!queryTrasEntra.exec())
+    {
+        qDebug() << "Erro na execuçã odo DELETE em Transacoes Entrada em encerrar Conta na classe Conta : "
+                 <<queryTrasEntra.lastError().text();
+        return false;
+    }
+
+    //apagar de TransacoesSaidas
+    QSqlQuery queryTrasSaida(bancoDeDados);
+
+    queryTrasSaida.prepare(R"(
+    DELETE FROM TransacoesSaidas
+    WHERE CPF = ?
+    )");
+    queryTrasSaida.addBindValue(CPF);
+
+    if(!queryTrasSaida.exec())
+    {
+        qDebug () <<"Erro na execução do DELETE em TransacoesSaidas em encerrarConta na classe Conta :"
+                 <<queryTrasSaida.lastError().text();
         return false;
     }
 
