@@ -259,15 +259,6 @@ bool MainWindow::recuperaDadosBanco()
     contaAtual.setFaturaCred(queryCredito.value(1).toDouble());
     contaAtual.setCreditoTotal(queryCredito.value(0).toDouble());
 
-    //Apagar depois
-    qDebug() << "Nome:"      << contaAtual.getNome();
-    qDebug() << "Nome Mãe:"  << contaAtual.getNomeMae();
-    qDebug() << "Email:"     << contaAtual.getEmail();
-    qDebug() << "Senha:"     << contaAtual.getSenha();
-    qDebug() << "Nascimento:"<< contaAtual.getNascimento().toString();
-    qDebug() << "CPF:"       << contaAtual.getCPF();
-    qDebug() << "Saldo:"     << contaAtual.getSaldo();
-    qDebug() << "Credito Disponivel:" <<contaAtual.getCredDisponivel();
     return true;
 }
 
