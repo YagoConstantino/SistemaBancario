@@ -1,6 +1,5 @@
 #ifndef CONTA_H
 #define CONTA_H
-#include <vector>
 #include <QString>
 #include <QDate>
 #include <QSql>
@@ -78,6 +77,8 @@ private:
     double saldo;
     double creditoTotal;
     double creditoDisponivel;
+
+    bool deveMudarExtrato;
 
     QSqlDatabase bancoDeDados;
 
