@@ -47,16 +47,9 @@ void Cadastro::closeEvent(QCloseEvent *event)
 //para o MainWindow
 bool Cadastro::criaConta()
 {
-    /*nome = ui->NomeText->text();
-    _CPF = ui->CPFtext->text();
-    _email = ui->EmailText->text();
-    _nascimento = ui->dateEditNascimento->date();
-    _nascimento.toString("dd-MM-yyyy");
-    _nomeMae = ui->MaeText->text();
-    _Senha = ui->Senha->text();
-    _ConfirmaSenha = ui->ConfirmaSenha->text();*/
     Conta *nova = getConta();
     //Tratar o CPF antes de mudar na conta, esse tratamento deve percorrer a string CPF e apagar os . ou -
+    _CPF.remove('.').remove('-');
     nova->setCPF(_CPF);
     nova->setDataNascimeto(_nascimento);
     nova->setEmail(_email);
