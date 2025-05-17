@@ -56,8 +56,14 @@ bool Cadastro::criaConta()
     _Senha = ui->Senha->text();
     _ConfirmaSenha = ui->ConfirmaSenha->text();*/
     Conta *nova = getConta();
+
+    // Tratamento do CPF para remover '.' e '-'
+    QString _cpfLimpo = _CPF;
+    _cpfLimpo.remove('.');
+    _cpfLimpo.remove('-');
+
     //Tratar o CPF antes de mudar na conta, esse tratamento deve percorrer a string CPF e apagar os . ou -
-    nova->setCPF(_CPF);
+    nova->setCPF(_cpfLimpo);
     nova->setDataNascimeto(_nascimento);
     nova->setEmail(_email);
     nova->setNome(_nome);
