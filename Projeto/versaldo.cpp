@@ -13,8 +13,9 @@ VerSaldo::VerSaldo(QWidget *parent)
     setWindowTitle("Ver Saldo");
     setAttribute(Qt::WA_DeleteOnClose);
 
-
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
+    setarSaldoAtual();
+
 }
 
 VerSaldo::~VerSaldo()
@@ -36,4 +37,14 @@ void VerSaldo::closeEvent(QCloseEvent *event)
         MenuPrin->show();
 
     event->accept();
+}
+
+void VerSaldo::setarSaldoAtual()
+{
+    MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
+    double saldo = menu->getConta()->getSaldo();
+
+    //converter o double para QString
+    QString textoSaldo = QString::number(saldo,'f',2);
+    ui->SaldoText->setText(textoSaldo);
 }

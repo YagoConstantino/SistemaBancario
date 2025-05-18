@@ -32,10 +32,17 @@ MenuPrincipal::~MenuPrincipal()
     delete ui;
 }
 
+Conta *MenuPrincipal::getConta()
+{
+    MainWindow* login = qobject_cast<MainWindow*>(parentWidget());
+    return login->getConta();
+}
+
 void MenuPrincipal::closeEvent(QCloseEvent *event)
 {
     Login = qobject_cast<MainWindow*>(parentWidget());
     if (Login) {
+        Login->clearTexto();
         Login->show();  // Mostra a MainWindow
     }
 
@@ -61,6 +68,7 @@ void MenuPrincipal::voltarLogin()
     }
     this->close();    // Fecha o diálogo*/
     Login = qobject_cast<MainWindow*>(parentWidget());
+    Login->clearTexto();
     Login->show();
     close();
 }

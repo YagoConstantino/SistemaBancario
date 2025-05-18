@@ -1,9 +1,10 @@
-    #ifndef CADASTRO_H
+#ifndef CADASTRO_H
 #define CADASTRO_H
 
 #include <QDialog>
 #include <QString>  // para QString
 #include <QDate>    // para QDate
+#include "conta.h"
 
 namespace Ui {
 class Cadastro;
@@ -29,11 +30,14 @@ private:
     QString _nomeMae;
     QString _Senha;
     QString _ConfirmaSenha;
+    Conta *conta;
 
 //Funções:
 private:
     int verificaCadastro();
     void closeEvent(QCloseEvent *event) override;
+    bool criaConta();
+    Conta* getConta();
 
 private slots:
     void voltarLogin();

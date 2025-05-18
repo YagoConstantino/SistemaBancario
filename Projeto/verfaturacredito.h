@@ -2,6 +2,8 @@
 #define VERFATURACREDITO_H
 
 #include <QDialog>
+#include <QMessageBox>
+#include "conta.h"
 
 namespace Ui {
 class VerFaturaCredito;
@@ -31,6 +33,7 @@ private slots:
     //Funções
 private:
     void closeEvent(QCloseEvent *event) override;
+    void setarDadosCredito();
 
 };
 
