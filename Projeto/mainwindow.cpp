@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     _Esq(nullptr)
 {
     ui->setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose);
+    //setAttribute(Qt::WA_DeleteOnClose);
 
 
     connect(ui->Confirmar,SIGNAL(clicked()),this,SLOT(Menu_Principal()));
