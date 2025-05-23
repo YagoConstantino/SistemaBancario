@@ -16,8 +16,8 @@ Conta::Conta()
     creditoDisponivel(),
     creditoTotal(),
     saldo(),
-    bancoDeDados()
-
+    bancoDeDados(),
+    deveMudarExtrato(true)
 {
     bancoDeDados = QSqlDatabase::addDatabase("QSQLITE");
     bancoDeDados.setDatabaseName("../../db_Projeto.db");
@@ -27,7 +27,6 @@ Conta::Conta()
     }
     else
         qDebug() << "Banco aberto com sucesso";
-
 }
 
 Conta::~Conta()
@@ -83,6 +82,7 @@ bool Conta::fazerSaque(double qtdSaque)
         qDebug() << "Erro na execução da query de extrato em FazerSaque Ccnta "<< queryExtrato.lastError().text();
     }
 
+    deveMudarExtrato = true;
     return true;
 
 }
@@ -135,7 +135,7 @@ bool Conta::fazerDeposito(double qtdDeposito)
         return false;
     }
 
-
+    deveMudarExtrato = true;
     return true;
 
 }
@@ -266,6 +266,7 @@ bool Conta::fazerTransf(double qtdTransf, QString cpfReceptor)
         return false;
     }
 
+    deveMudarExtrato = true;
     return true;
 }
 
@@ -431,7 +432,9 @@ const QString  Conta::getEmail() const
 
 const QString Conta::getExtrato()
 {
-    atualizaExtratoLocal();
+    if(deveMudarExtrato)
+        atualizaExtratoLocal();
+
     return extrato;
 }
 
@@ -662,17 +665,13 @@ bool Conta::pagarFaturaCredito(double qtdPagamento){
         qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
     }
 
+    deveMudarExtrato = true;
     return true;
 }
 
 void Conta::atualizaExtratoLocal(){
-    struct Registro{
-        QString valor;
-        QDate data;
-    };
-
-    std::vector<Registro> registros;
-    registros.reserve(50);
+    // Apaga o extrato desatualizado
+    extrato.clear();
 
     if(!bancoDeDados.isOpen() && !bancoDeDados.open())
     {
@@ -683,50 +682,26 @@ void Conta::atualizaExtratoLocal(){
 
     QSqlQuery query(bancoDeDados);
 
-    // Relativo as transacoes de entrada
-
-    query.prepare
-    (
-        R"(
-        SELECT valorTransacao, dataTransacao
-        FROM TransacoesEntrada
-        WHERE CPF = ?
-        )"
-    );
-
-    query.addBindValue(CPF);
-
-    if (!query.exec())
-    {
-        qDebug() << "Erro ao executar atualizar extrato:"
-                 << query.lastError().text();
-        return;
-    }
-
-    // Enquanto houver linhas e não ultrapassar o limite
-    int i = 0;
-    while(query.next() && i < 25){
-
-        // Adiciona as transacoes de entradas
-        Registro r;
-        r.valor = query.value(0).toString();
-        r.data = query.value(1).toDate();
-        registros.push_back(r);
-
-        i++;
-    }
-
-    // Relativo as transacoes de saida
-
+    // Auto explicativo
     query.prepare
     (
         R"(
         SELECT valorTransacao, dataTransacao
         FROM TransacoesSaidas
         WHERE CPF = ?
+
+        UNION ALL
+
+        SELECT valorTransacao, dataTransacao
+        FROM TransacoesEntrada
+        WHERE CPF = ?
+
+        ORDER BY dataTransacao DESC, valorTransacao DESC
+        LIMIT 50
         )"
     );
 
+    query.addBindValue(CPF);
     query.addBindValue(CPF);
 
     if (!query.exec())
@@ -736,32 +711,15 @@ void Conta::atualizaExtratoLocal(){
         return;
     }
 
-    // Enquanto houver linhas e não ultrapassar o limite
-    while(query.next() && i < 50){
-
-        // Adiciona as transacoes de saidas
-        Registro r;
-        r.valor = query.value(0).toString();
-        r.data = query.value(1).toDate();
-        registros.push_back(r);
-
-        i++;
+    // Repreenche o extrato com informacoes atualizadas
+    while(query.next()){
+        extrato.append(query.value(0).toString());
+        extrato.append("; Data: ");
+        extrato.append(query.value(1).toDate().toString("dd/MM/yyyy"));
+        extrato.append('\n');
     }
 
-    // Ordenar todas as transações por data decrescente
-    std::sort(registros.begin(), registros.end(), [](const Registro &a, const Registro &b) {
-        return a.data > b.data;
-    });
-
-    // Forma o novo extrato
-    QString extratoNovo;
-
-    size_t tam = registros.size();
-    for(int k = 0; k < tam; k++)
-        extratoNovo.append(registros[k].valor + "; Data: " + registros[k].data.toString("dd/MM/yyyy") + '\n');
-
-    // Atualiza
-    extrato = extratoNovo;
+    deveMudarExtrato = false;
 }
 void tratarCPF(QString &cpf)
 {
