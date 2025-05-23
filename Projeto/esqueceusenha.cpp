@@ -44,10 +44,12 @@ int EsqueceuSenha::mudarSenha()
 {
     //Verifica se o cpf existe no banco de dados
     QString cpf = ui->CPFtextBox->text();
+
     QString nomeMamae = ui->MaeTextBox->text();
     QString senha = ui->SenhaTextBox->text();
 
     Conta *contaAtual = getConta();
+    cpf.remove('.').remove('-');
     QSqlDatabase BD = contaAtual->getDataBase();
 
     QSqlQuery queryCPF(BD);

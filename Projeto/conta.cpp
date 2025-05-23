@@ -721,3 +721,14 @@ void Conta::atualizaExtratoLocal(){
 
     deveMudarExtrato = false;
 }
+void tratarCPF(QString &cpf)
+{
+    int i;
+    QString CPFTratado;
+    for(i=0;i<cpf.length();i++)
+    {
+        if(cpf[i] != '.' && cpf[i] != '-')
+            CPFTratado += cpf[i];
+    }
+    cpf = CPFTratado;
+}

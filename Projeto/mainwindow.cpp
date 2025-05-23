@@ -123,7 +123,7 @@ bool MainWindow::verificaContaExiste()
                  << BD.lastError().text();
         return false;
     }
-
+    _CPFlogin.remove('.').remove('-');
     //cria a query
     QSqlQuery queryCadastro(BD);
     queryCadastro.prepare(R"(

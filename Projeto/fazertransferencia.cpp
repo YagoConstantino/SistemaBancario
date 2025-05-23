@@ -45,6 +45,7 @@ void FazerTransferencia::confirmarSenha()
 {
     MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
     QString cpfReceptor = ui->DestinoText->text();
+    cpfReceptor.remove('.').remove('-');
     QtdTransferencia = ui->QtdValor->text().toDouble();
     double saldo = menu->getConta()->getSaldo();
     if(QtdTransferencia > saldo)
