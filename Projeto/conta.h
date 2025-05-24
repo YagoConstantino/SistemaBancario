@@ -19,6 +19,10 @@ public:
     bool fazerDeposito(double qtdDeposito);
     bool fazerTransf(double qtdTransf,QString cpfReceptor);
     bool encerrarConta();
+    bool confirmarSenha(QString cpf,QString senhaDigitada);
+    bool trocarSenha(QString cpf,QString nomeMamae,QString senha,QWidget *janela);
+    bool verificaContaExiste(QString cpf,QString senha,QWidget *janela);
+    bool recuperaDadosConta(QString cpf);
     //////////////////////////////////////////////////////////////////
 
     void setNome(QString novoNome);

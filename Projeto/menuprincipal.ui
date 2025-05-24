@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="MenuLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>91</width>
-     <height>16</height>
+     <x>11</x>
+     <y>1</y>
+     <width>100</width>
+     <height>18</height>
     </rect>
    </property>
    <property name="text">
@@ -31,8 +31,8 @@
     <rect>
      <x>300</x>
      <y>110</y>
-     <width>142</width>
-     <height>238</height>
+     <width>176</width>
+     <height>254</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -128,6 +128,58 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="Nomelabel">
+   <property name="geometry">
+    <rect>
+     <x>66</x>
+     <y>27</y>
+     <width>80</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nome Atual</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="CPFlabel">
+   <property name="geometry">
+    <rect>
+     <x>66</x>
+     <y>51</y>
+     <width>36</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Atual</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>27</y>
+     <width>45</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nome:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>51</y>
+     <width>30</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CPF:</string>
+   </property>
   </widget>
  </widget>
  <tabstops>

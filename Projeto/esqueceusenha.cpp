@@ -44,70 +44,13 @@ int EsqueceuSenha::mudarSenha()
 {
     //Verifica se o cpf existe no banco de dados
     QString cpf = ui->CPFtextBox->text();
-
+    cpf.remove('.').remove('-');
     QString nomeMamae = ui->MaeTextBox->text();
     QString senha = ui->SenhaTextBox->text();
 
     Conta *contaAtual = getConta();
-    cpf.remove('.').remove('-');
-    QSqlDatabase BD = contaAtual->getDataBase();
+    return contaAtual->trocarSenha(cpf,nomeMamae,senha,this);
 
-    QSqlQuery queryCPF(BD);
-    queryCPF.prepare(R"(
-        SELECT NomeMae
-        FROM Cadastro
-        WHERE CPF = ?
-    )");
-
-    queryCPF.addBindValue(cpf);
-
-    if (!queryCPF.exec())
-    {
-        qDebug() << "Erro ao executar mudarSenha EsqueceuSenha:"
-                 << queryCPF.lastError().text();
-
-        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
-        return 0;
-    }
-
-    if (!queryCPF.next()) {
-        qDebug() << "Nenhum registro encontrado para CPF EsqueceuSenha: " << cpf;
-        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
-        return 0;
-    }
-
-     //Verificar se o nome da mae passado é igual ao no banco
-    QString nomeRecuperado = queryCPF.value(0).toString();
-
-    if(nomeMamae != nomeRecuperado)
-    {
-        qDebug()<< "Nome da mae não bate com o registrado no BD";
-        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
-        return 0;
-    }
-
-    //atualizar a senha
-    QSqlQuery querySenha(BD);
-
-    querySenha.prepare(R"(
-    UPDATE Cadastro
-    SET Senha = ?
-    WHERE CPF = ?
-
-    )");
-
-    querySenha.addBindValue(senha);
-    querySenha.addBindValue(cpf);
-
-    if(!querySenha.exec())
-    {
-        qDebug() << "Erro ao na execução mudar a senha em Mudar senha de Esqueceu senha";
-        QMessageBox::warning(this,"Erro","Dados não batem, não houve troca de senha");
-        return 0;
-    }
-
-    contaAtual->setSenha(senha);
-    return 1;
 }
 
 Conta *EsqueceuSenha::getConta()

@@ -1,6 +1,7 @@
 #include "confirmarsenha.h"
 #include "ui_confirmarsenha.h"
 #include "menuprincipal.h"
+#include "conta.h"
 #include <QMessageBox>
 #include <QSqlQuery>
 ConfirmarSenha::ConfirmarSenha(QWidget *parent)
@@ -8,6 +9,7 @@ ConfirmarSenha::ConfirmarSenha(QWidget *parent)
     , ui(new Ui::ConfirmarSenha)
 {
     ui->setupUi(this);
+    setWindowTitle("Confimer sua Senha");
 
     connect(ui->MostrarSenhaCheckbox,SIGNAL(clicked(bool)),this,SLOT(mostrarSenha(bool)));
     connect(ui->OkBtn,SIGNAL(clicked()),this,SLOT(senhaOk()));
@@ -29,23 +31,15 @@ void ConfirmarSenha::senhaOk()
     }
     QString cpf = menu->getConta()->getCPF();
     QString senhaDigitada = ui->SenhaTxt->text();
-    QSqlDatabase BD = menu->getConta()->getDataBase();
+
 
     // Consulta no DB
-    QSqlQuery query(BD);
-    query.prepare("SELECT Senha FROM Cadastro WHERE CPF = ?");
-    query.addBindValue(cpf);
-    if (!query.exec() || !query.next()) {
-        // CPF não existe ou erro
-        QMessageBox::warning(this, tr("Erro"), tr("CPF não encontrado."));
-        reject();  // retorna false
-        return;
+    Conta* contaAtual = menu->getConta();
+    if(contaAtual->confirmarSenha(cpf,senhaDigitada))
+    {
+         accept();
     }
-
-    QString senhaArmazenada = query.value(0).toString();
-    if (senhaDigitada == senhaArmazenada) {
-        accept();  // retorna true
-    } else {
+    else {
         QMessageBox::warning(this, tr("Senha inválida"),
                              tr("A senha informada está incorreta."));
         reject();  // fecha e retorna false em caso de senha errada

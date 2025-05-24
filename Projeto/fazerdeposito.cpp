@@ -49,16 +49,21 @@ void FazerDeposito::confirmarSenha()
     MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
     ConfirmarSenha dlg(menu);
     // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
-    if(dlg.exec() == QDialog::Accepted)
+    if(valor.isEmpty()) QMessageBox::information(this,"Erro","Coloque algum valor ");
+    //if(valor.toDouble() < 0) QMessageBox::information(this,"Erro","Coloque uma valor válido");
+    else
     {
-        if(menu->getConta()->fazerDeposito(QtdDeposito))
+        if(dlg.exec() == QDialog::Accepted)
         {
-            QMessageBox::information(this,"Sucesso","Deposito feito com Sucesso");
+            if(menu->getConta()->fazerDeposito(QtdDeposito))
+            {
+                QMessageBox::information(this,"Sucesso","Deposito feito com Sucesso");
+            }
+            else
+                QMessageBox::information(this,"Erro","Deposito não concluido");
+            //mostrar mensagem de sucesso ??
+            voltarMenu();
         }
-        else
-            QMessageBox::information(this,"Erro","Deposito não concluido");
-        //mostrar mensagem de sucesso ??
-        voltarMenu();
     }
 }
 

@@ -18,14 +18,22 @@ MenuPrincipal::MenuPrincipal(QWidget *parent)
     EnceCont(nullptr),
     VerSald(nullptr)
 
-{
-    ui->setupUi(this);
-    setWindowTitle("Menu Principal");
-    setAttribute(Qt::WA_DeleteOnClose);
+    {
+        ui->setupUi(this);
+        setWindowTitle("Menu Principal");
+        setAttribute(Qt::WA_DeleteOnClose);
 
-    ConectaBotoesFuncoes();
+        ui->Nomelabel->setText(getConta()->getNome());
+        ui->Nomelabel->setMinimumSize(ui->Nomelabel->sizeHint());
+        ui->Nomelabel->adjustSize();
 
-}
+        ui->CPFlabel->setText(getConta()->getCPF());
+        ui->CPFlabel->setMinimumSize(ui->CPFlabel->sizeHint());
+        ui->CPFlabel->adjustSize();
+
+        ConectaBotoesFuncoes();
+
+    }
 
 MenuPrincipal::~MenuPrincipal()
 {

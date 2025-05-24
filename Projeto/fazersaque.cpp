@@ -41,16 +41,20 @@ void FazerSaque::confirmarSenha()
     MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
     ConfirmarSenha dlg(menu);
     // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
-    if(dlg.exec() == QDialog::Accepted)
+    if(valor.isEmpty()) QMessageBox::information(this,"Erro","Coloque algum valor ");
+    else
     {
-        if(menu->getConta()->fazerSaque(QtdSaque))
+        if(dlg.exec() == QDialog::Accepted)
         {
-            QMessageBox::information(this,"Sucesso","Saque feito com Sucesso");
+            if(menu->getConta()->fazerSaque(QtdSaque))
+            {
+                QMessageBox::information(this,"Sucesso","Saque feito com Sucesso");
+            }
+            else
+                QMessageBox::information(this,"Erro","Saque não concluido");
+            //mostrar mensagem de sucesso ??
+            voltarMenu();
         }
-        else
-            QMessageBox::information(this,"Erro","Saque não concluido");
-        //mostrar mensagem de sucesso ??
-        voltarMenu();
     }
 }
 

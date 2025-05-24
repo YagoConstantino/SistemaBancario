@@ -373,6 +373,233 @@ bool Conta::encerrarConta()
     return true;
 }
 
+bool Conta::confirmarSenha(QString cpf, QString senhaDigitada)
+{
+
+    // Consulta no DB
+    QSqlQuery query(bancoDeDados);
+    query.prepare("SELECT Senha FROM Cadastro WHERE CPF = ?");
+    query.addBindValue(cpf);
+    if (!query.exec() || !query.next()) {
+        // CPF não existe ou erro
+        // retorna false
+        return false;
+    }
+
+    QString senhaArmazenada = query.value(0).toString();
+    if (senhaDigitada == senhaArmazenada) {
+        return true;  // retorna true
+    } else
+        return false;  // fecha e retorna false em caso de senha errada
+}
+
+bool Conta::trocarSenha(QString cpf, QString nomeMamae, QString senha,QWidget *janela)
+{
+    QSqlQuery queryCPF(bancoDeDados);
+    queryCPF.prepare(R"(
+        SELECT NomeMae
+        FROM Cadastro
+        WHERE CPF = ?
+    )");
+
+    queryCPF.addBindValue(cpf);
+
+    if (!queryCPF.exec())
+    {
+        qDebug() << "Erro ao executar mudarSenha EsqueceuSenha:"
+                 << queryCPF.lastError().text();
+
+        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
+
+        return false;
+    }
+
+    if (!queryCPF.next()) {
+        qDebug() << "Nenhum registro encontrado para CPF EsqueceuSenha: " << cpf;
+        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
+        return false;
+    }
+
+    //Verificar se o nome da mae passado é igual ao no banco
+    QString nomeRecuperado = queryCPF.value(0).toString();
+
+    if(nomeMamae != nomeRecuperado)
+    {
+        qDebug()<< "Nome da mae não bate com o registrado no BD";
+        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
+        return false;
+    }
+
+    //atualizar a senha
+    QSqlQuery querySenha(bancoDeDados);
+
+    querySenha.prepare(R"(
+    UPDATE Cadastro
+    SET Senha = ?
+    WHERE CPF = ?
+
+    )");
+
+    querySenha.addBindValue(senha);
+    querySenha.addBindValue(cpf);
+
+    if(!querySenha.exec())
+    {
+        qDebug() << "Erro ao na execução mudar a senha em Mudar senha de Esqueceu senha";
+        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
+        return false;
+    }
+
+    setSenha(senha);
+    return true;
+}
+
+bool Conta::verificaContaExiste(QString cpf, QString senha, QWidget *janela)
+{
+    if(!bancoDeDados.isOpen() && bancoDeDados.open())
+    {
+        qDebug() << "Erro ao abrir DB em verificaContaExiste:"
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+    cpf.remove('.').remove('-');
+    //cria a query
+    QSqlQuery queryCadastro(bancoDeDados);
+    queryCadastro.prepare(R"(
+    SELECT Senha
+    FROM Cadastro
+    WHERE CPF = ?
+    )");
+
+    //vincula o CPF dado
+    queryCadastro.addBindValue(cpf);
+
+    //Ve se query funcionou
+    if(!queryCadastro.exec())
+    {
+        qDebug() << "Erro ao executar verificarContaExiste:"
+                 << queryCadastro.lastError().text();
+        return false;
+
+    }
+
+    //Ve se o cpf existe
+    if(!queryCadastro.next())
+    {
+        qDebug() << "CPF não encontrado:" << cpf;
+        return false;
+    }
+
+    // compara a senha
+    QString senhaArmazenada = queryCadastro.value(0).toString();
+    if (senhaArmazenada != senha) {
+        qDebug() << "Senha incorreta para o CPF:" << cpf;
+        QMessageBox::warning(janela,"Erro","Senha incorreta para o CPF ");
+        return false;
+    }
+
+
+
+    return true;
+}
+
+bool Conta::recuperaDadosConta(QString cpf)
+{
+    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
+    {
+        qDebug() << "Erro ao abrir DB em RecuperaDadosBanco: "
+                 << bancoDeDados.lastError().text();
+        return false;
+    }
+    //Recupera a parte do cadastro
+    QSqlQuery queryCad(bancoDeDados);
+
+    queryCad.prepare
+        (
+            R"(
+        SELECT Nome, NomeMae, Email, Senha, DataNascimento
+        FROM Cadastro
+        WHERE CPF = ?
+        )"
+            );
+    queryCad.addBindValue(cpf);
+
+    if (!queryCad.exec())
+    {
+        qDebug() << "Erro ao executar recuperarDadosConta Cadastro:"
+                 << queryCad.lastError().text();
+        return false;
+    }
+
+    if (!queryCad.next()) {
+        qDebug() << "Nenhum registro encontrado para CPF Cadastro" << cpf;
+        return false;
+    }
+
+    //Atualiza na conta local
+    setCPF(cpf);
+    setNome(queryCad.value(0).toString());
+    setNomeMae( queryCad.value(1).toString());
+    setEmail(   queryCad.value(2).toString());
+    setSenha(   queryCad.value(3).toString());
+    // Se quiser também recuperar a data de nascimento:
+    QDate nasc = QDate::fromString(queryCad.value(4).toString(), Qt::ISODate);
+    setDataNascimeto(nasc);
+
+    //Recupera do Saldo
+    QSqlQuery querySaldo(bancoDeDados);
+
+    querySaldo.prepare(R"(
+    SELECT Saldo
+    FROM Saldo
+    WHERE  CPF = ?
+
+    )");
+
+    querySaldo.addBindValue(cpf);
+
+    if (!querySaldo.exec())
+    {
+        qDebug() << "Erro ao executar recuperarDadosConta Saldo:"
+                 << querySaldo.lastError().text();
+        return false;
+    }
+
+
+    if (!querySaldo.next()) {
+        qDebug() << "Nenhum registro encontrado para CPF Saldo" << cpf;
+        return false;
+    }
+
+    setSaldo(querySaldo.value(0).toDouble());
+
+    QSqlQuery queryCredito(bancoDeDados);
+
+    queryCredito.prepare(R"(
+    SELECT credito_total,fatura_atual
+    FROM Credito
+    WHERE CPF = ?
+    )");
+
+    queryCredito.addBindValue(cpf);
+
+    if(!queryCredito.exec())
+    {
+        qDebug() << "Erro ao executar Query RecuperarDadosConta Credito:"
+                 <<queryCredito.lastError().text();
+    }
+
+    if (!queryCredito.next()) {
+        qDebug() << "Nenhum registro encontrado para CPF Credito" << cpf;
+        return false;
+    }
+
+    setFaturaCred(queryCredito.value(1).toDouble());
+    setCreditoTotal(queryCredito.value(0).toDouble());
+
+    return true;
+}
+
 double Conta::getSaldo()
 {
     return saldo;
