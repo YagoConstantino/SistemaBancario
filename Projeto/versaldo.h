@@ -2,6 +2,7 @@
 #define VERSALDO_H
 
 #include <QDialog>
+#include "Conta.h"
 
 namespace Ui {
 class VerSaldo;

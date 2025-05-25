@@ -3,18 +3,17 @@
 #include <QString>
 #include <QDate>
 #include <QSql>
-#include <QSqlDatabase>
 #include <QDebug>
 #include <QFileInfo>
 #include <QSqlError>
 
+class ConexaoBD;
+
 class Conta
 {
 public:
-    Conta();
-    ~Conta();
 
-    //Nao foram implementadas, se relacionam com o banco de dados e devem atualizar dados da conta local
+    void resetar();
     bool fazerSaque(double qtdSaque);
     bool fazerDeposito(double qtdDeposito);
     bool fazerTransf(double qtdTransf,QString cpfReceptor);
@@ -23,7 +22,6 @@ public:
     bool trocarSenha(QString cpf,QString nomeMamae,QString senha,QWidget *janela);
     bool verificaContaExiste(QString cpf,QString senha,QWidget *janela);
     bool recuperaDadosConta(QString cpf);
-    //////////////////////////////////////////////////////////////////
 
     void setNome(QString novoNome);
     const QString getNome()const ;
@@ -51,10 +49,10 @@ public:
 
     const double getCredDisponivel()const;
 
+    const int getIdade() const;
+
     void setFaturaCred(double novaFatCred);
     double const getFaturaCred()const;
-
-    QSqlDatabase const getDataBase()const;
 
     double getSaldo();
     double getFaturaCred();
@@ -69,6 +67,8 @@ public:
 
 
 private:
+    ConexaoBD* conexaoBD;
+
     QString nome;
     QString nomeMae;
     QString senha;
@@ -77,6 +77,8 @@ private:
     QString extrato;
     QDate dataNascimento;
 
+    int idade;
+
     double faturaCredito;
     double saldo;
     double creditoTotal;
@@ -84,8 +86,19 @@ private:
 
     bool deveMudarExtrato;
 
-    QSqlDatabase bancoDeDados;
+// Singleton:
+private:
+    Conta();
+    static Conta* instancia;
 
+public:
+    ~Conta();
+
+    // Proíbe cópia e atribuição
+    Conta(const Conta&) = delete;
+    Conta& operator=(const Conta&) = delete;
+
+    static Conta* getInstancia();
 };
 
 #endif // CONTA_H

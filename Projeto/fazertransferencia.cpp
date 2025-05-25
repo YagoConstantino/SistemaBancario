@@ -43,11 +43,13 @@ void FazerTransferencia::closeEvent(QCloseEvent *event)
 
 void FazerTransferencia::confirmarSenha()
 {
+    Conta* conta = Conta::getInstancia();
+
     MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
     QString cpfReceptor = ui->DestinoText->text();
     cpfReceptor.remove('.').remove('-');
     QtdTransferencia = ui->QtdValor->text().toDouble();
-    double saldo = menu->getConta()->getSaldo();
+    double saldo = conta->getSaldo();
     if(QtdTransferencia > saldo)
     {
         QMessageBox::information(this,"Erro","Saldo insuficiente para a Transferência");
@@ -65,7 +67,7 @@ void FazerTransferencia::confirmarSenha()
     // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
     if(dlg.exec() == QDialog::Accepted)
     {
-        if(menu->getConta()->fazerTransf(QtdTransferencia,cpfReceptor))
+        if(conta->fazerTransf(QtdTransferencia,cpfReceptor))
         {
             QMessageBox::information(this,"Sucesso","Transferencia feita com Sucesso");
         }

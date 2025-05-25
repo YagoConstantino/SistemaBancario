@@ -3,6 +3,17 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include "ConexaoBD.h"
+
+Conta* Conta::instancia = nullptr;
+
+Conta* Conta::getInstancia() {
+    if (instancia == nullptr)
+        instancia = new Conta();
+
+    return instancia;
+}
+
 Conta::Conta()
 :
     nome(),
@@ -12,26 +23,41 @@ Conta::Conta()
     email(),
     extrato(),
     dataNascimento(),
-    faturaCredito(),
-    creditoDisponivel(),
-    creditoTotal(),
-    saldo(),
-    bancoDeDados(),
-    deveMudarExtrato(true)
+    faturaCredito(0.f),
+    creditoDisponivel(0.f),
+    creditoTotal(0.f),
+    saldo(0.f),
+    idade(0),
+    deveMudarExtrato(true),
+    conexaoBD(nullptr)
 {
-    bancoDeDados = QSqlDatabase::addDatabase("QSQLITE");
-    bancoDeDados.setDatabaseName("../../db_Projeto.db");
-
-    if (!bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir banco:" << bancoDeDados.lastError().text();
-    }
-    else
-        qDebug() << "Banco aberto com sucesso";
+    conexaoBD = new ConexaoBD();
 }
 
 Conta::~Conta()
 {
-    bancoDeDados.close();
+    if(conexaoBD != nullptr){
+        delete conexaoBD;
+        conexaoBD = nullptr;
+    }
+}
+
+// Útil para troca de contas
+void Conta::resetar()
+{
+    nome.clear();
+    nomeMae.clear();
+    senha.clear();
+    CPF.clear();
+    email.clear();
+    extrato.clear();
+    dataNascimento.setDate(0,0,0);
+    faturaCredito = 0.f;
+    creditoDisponivel = 0.f;
+    creditoTotal = 0.f;
+    saldo = 0.f;
+    idade = 0.f;
+    deveMudarExtrato = true;
 }
 
 bool Conta::fazerSaque(double qtdSaque)
@@ -41,50 +67,8 @@ bool Conta::fazerSaque(double qtdSaque)
     //Atualiza localmente
     saldo -= qtdSaque;
 
-    //Verifica se o Banco de Dados ta aberto
-    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir DB em FazerSaque Conta:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    //Atualiza no Banco de Dados
-    QSqlQuery query(bancoDeDados);
-    query.prepare(R"(
-    UPDATE Saldo
-    set Saldo = ?
-    where CPF = ?
-    )");
-
-    query.addBindValue(saldo);
-    query.addBindValue(CPF);
-
-    if(!query.exec())
-    {
-        qDebug()<<"Erro na execução da query em fazerSaque Conta : " << query.lastError().text();
-        return false;
-    }
-
-    QString extrato = QString("- %1 R$").arg(QString::number(qtdSaque, 'f', 2));
-    QString hoje = QDate::currentDate().toString(Qt::ISODate);
-    QSqlQuery queryExtrato(bancoDeDados);
-    queryExtrato.prepare(R"(
-    INSERT INTO TransacoesSaidas
-    (CPF,valorTransacao,dataTransacao)
-    VALUES (?,?,?)
-    )");
-
-    queryExtrato.addBindValue(CPF);
-    queryExtrato.addBindValue(extrato);
-    queryExtrato.addBindValue(hoje);
-    if(!queryExtrato.exec())
-    {
-        qDebug() << "Erro na execução da query de extrato em FazerSaque Ccnta "<< queryExtrato.lastError().text();
-    }
-
     deveMudarExtrato = true;
-    return true;
-
+    return conexaoBD->fazerSaque(CPF, qtdSaque);
 }
 
 bool Conta::fazerDeposito(double qtdDeposito)
@@ -93,181 +77,16 @@ bool Conta::fazerDeposito(double qtdDeposito)
     //Atualiza localmente
     saldo += qtdDeposito;
 
-    //Verifica se o Banco de Dados ta aberto
-    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir DB em FazerDeposito Conta:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    //Atualiza no Banco de Dados
-    QSqlQuery query(bancoDeDados);
-    query.prepare(R"(
-    UPDATE Saldo
-    set Saldo = ?
-    where CPF = ?
-    )");
-
-    query.addBindValue(saldo);
-    query.addBindValue(CPF);
-
-    if(!query.exec())
-    {
-        qDebug()<<"Erro na execução da query em fazerDeposito Conta : " << query.lastError().text();
-        return false;
-    }
-
-    QString extrato = QString("+ %1 R$").arg(QString::number(qtdDeposito, 'f', 2));
-    QString hoje = QDate::currentDate().toString(Qt::ISODate);
-    QSqlQuery queryExtrato(bancoDeDados);
-    queryExtrato.prepare(R"(
-    INSERT INTO TransacoesEntrada
-    (CPF,valorTransacao,dataTransacao)
-    VALUES (?,?,?)
-    )");
-
-    queryExtrato.addBindValue(CPF);
-    queryExtrato.addBindValue(extrato);
-    queryExtrato.addBindValue(hoje);
-    if(!queryExtrato.exec())
-    {
-        qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
-        return false;
-    }
-
     deveMudarExtrato = true;
-    return true;
-
+    return conexaoBD->fazerDeposito(CPF, qtdDeposito);
 }
 
 bool Conta::fazerTransf(double qtdTransf, QString cpfReceptor)
 {
-
     saldo -= qtdTransf;
-    //verificar se abriu o banco de dados
-    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir DB em FazerTransf Conta:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    //Verificar se o cpf receptor existe e recuperar seu saldo atual
-    QSqlQuery querySaldoReceptora(bancoDeDados);
-
-    querySaldoReceptora.prepare(R"(
-        SELECT Saldo
-        FROM Saldo
-        WHERE CPF = ?
-
-    )");
-
-    querySaldoReceptora.addBindValue(cpfReceptor);
-
-    if(!querySaldoReceptora.exec())
-    {
-        qDebug() << "Erro em recuperar o Saldo da conta Receptora em fazerTransferencia em conta: "
-                 << querySaldoReceptora.lastError().text();
-        return false;
-    }
-    if(!querySaldoReceptora.next())
-    {
-        qDebug() << "CPF não encontrado EM Transferencia conta:" << cpfReceptor;
-        return false;
-    }
-
-    double saldoReceptora = querySaldoReceptora.value(0).toDouble();
-    saldoReceptora += qtdTransf;
-
-
-    if(!bancoDeDados.open() && !bancoDeDados.isOpen())
-    {
-        qDebug() << "Erro ao Abrir Banco de Dados em fazerTransf Conta"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    //atualizar saldo na conta transmissora
-    QSqlQuery querySaldoTrans(bancoDeDados);
-
-    querySaldoTrans.prepare(R"(
-    UPDATE Saldo
-    SET Saldo = ?
-    WHERE CPF = ?
-    )");
-
-    querySaldoTrans.addBindValue(saldo);
-    querySaldoTrans.addBindValue(CPF);
-
-    if(!querySaldoTrans.exec())
-    {
-        qDebug()<<"Erro na execução da query em fazerTransf Conta : "
-                 << querySaldoTrans.lastError().text();
-        return false;
-    }
-
-    //atualizar em transações saida da conta transmissora
-    QSqlQuery queryExtratoTrans(bancoDeDados);
-    QString extratoSaida = QString("- %1 R$").arg(QString::number(qtdTransf, 'f', 2));
-    QString hoje = QDate::currentDate().toString(Qt::ISODate);
-
-    queryExtratoTrans.prepare(R"(
-    INSERT INTO TransacoesSaidas
-    (CPF,valorTransacao,dataTransacao)
-    VALUES (?,?,?)
-    )");
-
-    queryExtratoTrans.addBindValue(CPF);
-    queryExtratoTrans.addBindValue(extratoSaida);
-    queryExtratoTrans.addBindValue(hoje);
-    if(!queryExtratoTrans.exec())
-    {
-        qDebug() << "Erro na execução da query de extrato em fazerTransferencia Conta "
-                 << queryExtratoTrans.lastError().text();
-        return false;
-    }
-
-    //atualizar saldo na conta receptora
-
-    QSqlQuery queryAtualizaSaldoRec(bancoDeDados);
-
-    queryAtualizaSaldoRec.prepare(R"(
-    UPDATE Saldo
-    SET Saldo = ?
-    WHERE CPF = ?
-    )");
-
-    queryAtualizaSaldoRec.addBindValue(saldoReceptora);;
-    queryAtualizaSaldoRec.addBindValue(cpfReceptor);
-
-    if(!queryAtualizaSaldoRec.exec())
-    {
-        qDebug () << "Erro ao atualizar o saldo da conta recptora em FazerTransferencia em conta :"
-                 << queryAtualizaSaldoRec.lastError().text();
-
-        return false;
-    }
-    //atualizar em transações de entrada da conta receptora
-    QSqlQuery queryExtratoEntrada(bancoDeDados);
-    QString extratoEntrada = QString("+ %1 R$").arg(QString::number(qtdTransf, 'f', 2));
-
-    queryExtratoEntrada.prepare(R"(
-    INSERT INTO TransacoesEntrada
-    (CPF,valorTransacao,dataTransacao)
-    VALUES (?,?,?)
-    )");
-    queryExtratoEntrada.addBindValue(cpfReceptor);
-    queryExtratoEntrada.addBindValue(extratoEntrada);
-    queryExtratoEntrada.addBindValue(hoje);
-
-    if(!queryExtratoEntrada.exec())
-    {
-        qDebug() << "Erro ao salvar extrato de Entrada em fazer Transferencia em conta : "
-                 << queryExtratoEntrada.lastError().text();
-        return false;
-    }
 
     deveMudarExtrato = true;
-    return true;
+    return conexaoBD->fazerTransferencia(CPF, cpfReceptor, qtdTransf);
 }
 
 bool Conta::encerrarConta()
@@ -279,173 +98,38 @@ bool Conta::encerrarConta()
         return false;
     }
 
-    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
-    {
-        qDebug()<<"Erro ao abrir banco de dados em encerrarConta em Conta: "
-                 <<bancoDeDados.lastError().text();
-        return false;
-    }
-
-    //apagar de Cadastro
-    QSqlQuery queryCadastro(bancoDeDados);
-
-    queryCadastro.prepare(R"(
-    DELETE FROM Cadastro
-    WHERE CPF = ?
-    )");
-
-    queryCadastro.addBindValue(CPF);
-
-    if(!queryCadastro.exec())
-    {
-        qDebug()<<"Erro na execução do delete em Cadastro no EncerrarConta em Conta: "
-                 <<queryCadastro.lastError().text();
-
-        return false;
-    }
-
-    //apagar de Saldo
-    QSqlQuery querySaldo(bancoDeDados);
-
-    querySaldo.prepare(R"(
-    DELETE FROM Saldo
-    WHERE CPF = ?
-
-    )");
-
-    querySaldo.addBindValue(CPF);
-
-    if(!querySaldo.exec())
-    {
-        qDebug()<<"Erro na execução do Delete em Saldo no encerrarConta em Conta: "
-                 <<querySaldo.lastError().text();
-        return false;
-    }
-    //apagar de Credito
-    QSqlQuery queryCredito(bancoDeDados);
-
-    queryCredito.prepare(R"(
-    DELETE FROM CREDITO
-    WHERE CPF = ?
-    )");
-
-    queryCredito.addBindValue(CPF);
-
-    if(!queryCredito.exec())
-    {
-        qDebug () <<"Erro ao executar o DELETE em Credito em encerrarConta na Conta: "
-                 <<queryCredito.lastError().text();
-        return false;
-    }
-
-    // apagar de TransacoesEntrada
-    QSqlQuery queryTrasEntra(bancoDeDados);
-    queryTrasEntra.prepare(R"(
-    DELETE FROM TransacoesEntrada
-    WHERE CPF = ?
-    )");
-
-    queryTrasEntra.addBindValue(CPF);
-
-    if(!queryTrasEntra.exec())
-    {
-        qDebug() << "Erro na execuçã odo DELETE em Transacoes Entrada em encerrar Conta na classe Conta : "
-                 <<queryTrasEntra.lastError().text();
-        return false;
-    }
-
-    //apagar de TransacoesSaidas
-    QSqlQuery queryTrasSaida(bancoDeDados);
-
-    queryTrasSaida.prepare(R"(
-    DELETE FROM TransacoesSaidas
-    WHERE CPF = ?
-    )");
-    queryTrasSaida.addBindValue(CPF);
-
-    if(!queryTrasSaida.exec())
-    {
-        qDebug () <<"Erro na execução do DELETE em TransacoesSaidas em encerrarConta na classe Conta :"
-                 <<queryTrasSaida.lastError().text();
-        return false;
-    }
-
-    return true;
+    return conexaoBD->encerrarConta(CPF);
 }
 
 bool Conta::confirmarSenha(QString cpf, QString senhaDigitada)
 {
-
-    // Consulta no DB
-    QSqlQuery query(bancoDeDados);
-    query.prepare("SELECT Senha FROM Cadastro WHERE CPF = ?");
-    query.addBindValue(cpf);
-    if (!query.exec() || !query.next()) {
-        // CPF não existe ou erro
-        // retorna false
-        return false;
-    }
-
-    QString senhaArmazenada = query.value(0).toString();
-    if (senhaDigitada == senhaArmazenada) {
-        return true;  // retorna true
-    } else
-        return false;  // fecha e retorna false em caso de senha errada
+    return conexaoBD->confirmarSenha(CPF, senhaDigitada);
 }
 
 bool Conta::trocarSenha(QString cpf, QString nomeMamae, QString senha,QWidget *janela)
 {
-    QSqlQuery queryCPF(bancoDeDados);
-    queryCPF.prepare(R"(
-        SELECT NomeMae
-        FROM Cadastro
-        WHERE CPF = ?
-    )");
+    int resultado = conexaoBD->trocarSenha(CPF, nomeMamae, senha);
 
-    queryCPF.addBindValue(cpf);
-
-    if (!queryCPF.exec())
+    if (resultado == 0)
     {
-        qDebug() << "Erro ao executar mudarSenha EsqueceuSenha:"
-                 << queryCPF.lastError().text();
+        qDebug() << "Erro ao executar mudarSenha EsqueceuSenha:";
 
-        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
+        QMessageBox::warning(janela,"Erro","Erro ao acessar banco de dados");
 
         return false;
     }
 
-    if (!queryCPF.next()) {
+    cpf.remove('.').remove('-');
+
+    if (CPF != cpf) {
         qDebug() << "Nenhum registro encontrado para CPF EsqueceuSenha: " << cpf;
         QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
         return false;
     }
 
-    //Verificar se o nome da mae passado é igual ao no banco
-    QString nomeRecuperado = queryCPF.value(0).toString();
-
-    if(nomeMamae != nomeRecuperado)
+    if(resultado == -1)
     {
-        qDebug()<< "Nome da mae não bate com o registrado no BD";
-        QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
-        return false;
-    }
-
-    //atualizar a senha
-    QSqlQuery querySenha(bancoDeDados);
-
-    querySenha.prepare(R"(
-    UPDATE Cadastro
-    SET Senha = ?
-    WHERE CPF = ?
-
-    )");
-
-    querySenha.addBindValue(senha);
-    querySenha.addBindValue(cpf);
-
-    if(!querySenha.exec())
-    {
-        qDebug() << "Erro ao na execução mudar a senha em Mudar senha de Esqueceu senha";
+        qDebug() << "Nome da mae não bate com o registrado no BD";
         QMessageBox::warning(janela,"Erro","Dados não batem, não houve troca de senha");
         return false;
     }
@@ -456,148 +140,22 @@ bool Conta::trocarSenha(QString cpf, QString nomeMamae, QString senha,QWidget *j
 
 bool Conta::verificaContaExiste(QString cpf, QString senha, QWidget *janela)
 {
-    if(!bancoDeDados.isOpen() && bancoDeDados.open())
-    {
-        qDebug() << "Erro ao abrir DB em verificaContaExiste:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
     cpf.remove('.').remove('-');
-    //cria a query
-    QSqlQuery queryCadastro(bancoDeDados);
-    queryCadastro.prepare(R"(
-    SELECT Senha
-    FROM Cadastro
-    WHERE CPF = ?
-    )");
 
-    //vincula o CPF dado
-    queryCadastro.addBindValue(cpf);
+    int resultado = conexaoBD->verificaContaExistente(cpf, senha);
 
-    //Ve se query funcionou
-    if(!queryCadastro.exec())
-    {
-        qDebug() << "Erro ao executar verificarContaExiste:"
-                 << queryCadastro.lastError().text();
-        return false;
-
-    }
-
-    //Ve se o cpf existe
-    if(!queryCadastro.next())
-    {
-        qDebug() << "CPF não encontrado:" << cpf;
-        return false;
-    }
-
-    // compara a senha
-    QString senhaArmazenada = queryCadastro.value(0).toString();
-    if (senhaArmazenada != senha) {
+    if (resultado == -2) {
         qDebug() << "Senha incorreta para o CPF:" << cpf;
         QMessageBox::warning(janela,"Erro","Senha incorreta para o CPF ");
         return false;
     }
-
-
 
     return true;
 }
 
 bool Conta::recuperaDadosConta(QString cpf)
 {
-    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
-    {
-        qDebug() << "Erro ao abrir DB em RecuperaDadosBanco: "
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-    //Recupera a parte do cadastro
-    QSqlQuery queryCad(bancoDeDados);
-
-    queryCad.prepare
-        (
-            R"(
-        SELECT Nome, NomeMae, Email, Senha, DataNascimento
-        FROM Cadastro
-        WHERE CPF = ?
-        )"
-            );
-    queryCad.addBindValue(cpf);
-
-    if (!queryCad.exec())
-    {
-        qDebug() << "Erro ao executar recuperarDadosConta Cadastro:"
-                 << queryCad.lastError().text();
-        return false;
-    }
-
-    if (!queryCad.next()) {
-        qDebug() << "Nenhum registro encontrado para CPF Cadastro" << cpf;
-        return false;
-    }
-
-    //Atualiza na conta local
-    setCPF(cpf);
-    setNome(queryCad.value(0).toString());
-    setNomeMae( queryCad.value(1).toString());
-    setEmail(   queryCad.value(2).toString());
-    setSenha(   queryCad.value(3).toString());
-    // Se quiser também recuperar a data de nascimento:
-    QDate nasc = QDate::fromString(queryCad.value(4).toString(), Qt::ISODate);
-    setDataNascimeto(nasc);
-
-    //Recupera do Saldo
-    QSqlQuery querySaldo(bancoDeDados);
-
-    querySaldo.prepare(R"(
-    SELECT Saldo
-    FROM Saldo
-    WHERE  CPF = ?
-
-    )");
-
-    querySaldo.addBindValue(cpf);
-
-    if (!querySaldo.exec())
-    {
-        qDebug() << "Erro ao executar recuperarDadosConta Saldo:"
-                 << querySaldo.lastError().text();
-        return false;
-    }
-
-
-    if (!querySaldo.next()) {
-        qDebug() << "Nenhum registro encontrado para CPF Saldo" << cpf;
-        return false;
-    }
-
-    setSaldo(querySaldo.value(0).toDouble());
-
-    QSqlQuery queryCredito(bancoDeDados);
-
-    queryCredito.prepare(R"(
-    SELECT credito_total,fatura_atual
-    FROM Credito
-    WHERE CPF = ?
-    )");
-
-    queryCredito.addBindValue(cpf);
-
-    if(!queryCredito.exec())
-    {
-        qDebug() << "Erro ao executar Query RecuperarDadosConta Credito:"
-                 <<queryCredito.lastError().text();
-    }
-
-    if (!queryCredito.next()) {
-        qDebug() << "Nenhum registro encontrado para CPF Credito" << cpf;
-        return false;
-    }
-
-    setFaturaCred(queryCredito.value(1).toDouble());
-    setCreditoTotal(queryCredito.value(0).toDouble());
-
-    return true;
+    return conexaoBD->recuperaDadosConta(cpf);
 }
 
 double Conta::getSaldo()
@@ -706,6 +264,11 @@ const double Conta::getCredDisponivel() const
     return creditoDisponivel;
 }
 
+const int Conta::getIdade() const
+{
+    return idade;
+}
+
 void Conta::setFaturaCred(double novaFatCred)
 {
     faturaCredito = novaFatCred;
@@ -716,11 +279,6 @@ const double Conta::getFaturaCred() const
     return faturaCredito;
 }
 
-const QSqlDatabase Conta::getDataBase() const
-{
-    return bancoDeDados;
-}
-
 bool Conta::CadastraContaBD()
 {
     setSaldo(0.0);
@@ -729,222 +287,22 @@ bool Conta::CadastraContaBD()
     faturaCredito = 0.0;
     extrato = "";
 
-
-    // 1) Banco aberto?
-    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir DB em CadastraContaBD:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    // 2) Calcula idade…
-    QDate hoje = QDate::currentDate();
-    int idade = hoje.year() - dataNascimento.year();
-    if (hoje < QDate(hoje.year(),
-                     dataNascimento.month(),
-                     dataNascimento.day()))
-        --idade;
-
-    // 3) INSERT em Cadastro
-    {
-        QSqlQuery query(bancoDeDados);
-        const QString sql =
-            "INSERT INTO Cadastro "
-            "(CPF, Nome, NomeMae, Idade, Email, Senha, DataNascimento) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        if (!query.prepare(sql)) {
-            qDebug() << "Erro no prepare Cadastro:"
-                     << query.lastError().text()  // query, não outro objeto
-                     << "\nSQL =" << sql;
-            return false;
-        }
-
-        query.addBindValue(CPF);
-        query.addBindValue(nome);
-        query.addBindValue(nomeMae);
-        query.addBindValue(idade);
-        query.addBindValue(email);
-        query.addBindValue(senha);
-        query.addBindValue(dataNascimento.toString(Qt::ISODate));
-
-        if (!query.exec()) {
-            qDebug() << "Erro ao exec Cadastro:"
-                     << query.lastError().text();
-            return false;
-        }
-    }
-
-    // 4) INSERT em Credito
-    {
-        QSqlQuery queryCredito(bancoDeDados);
-        const QString sql =
-            "INSERT INTO Credito "
-            "(CPF, credito_total, fatura_atual) "
-            "VALUES (?, ?, ?)";
-        if (!queryCredito.prepare(sql)) {
-            qDebug() << "Erro no prepare Credito:"
-                     << queryCredito.lastError().text()
-                     << "\nSQL =" << sql;
-            return false;
-        }
-
-        queryCredito.addBindValue(CPF);
-        queryCredito.addBindValue(0);
-        queryCredito.addBindValue(0);
-
-
-        if (!queryCredito.exec()) {
-            qDebug() << "Erro ao exec Credito:"
-                     << queryCredito.lastError().text();
-            return false;
-        }
-    }
-
-    // 5) INSERT em Saldo
-    {
-        QSqlQuery querySaldo(bancoDeDados);
-        const QString sql =
-            "INSERT INTO Saldo "
-            "(CPF, Saldo) "
-            "VALUES (?, ?)";
-        if (!querySaldo.prepare(sql)) {
-            qDebug() << "Erro no prepare Saldo:"
-                     << querySaldo.lastError().text()
-                     << "\nSQL =" << sql;
-            return false;
-        }
-
-        querySaldo.addBindValue(CPF);
-        querySaldo.addBindValue(0);
-
-        if (!querySaldo.exec()) {
-            qDebug() << "Erro ao exec Saldo:"
-                     << querySaldo.lastError().text();
-            return false;
-        }
-    }
-
-    return true;
+    return conexaoBD->cadastraConta();
 }
 
 bool Conta::pagarFaturaCredito(double qtdPagamento){
     saldo -= qtdPagamento;
     faturaCredito -= qtdPagamento;
 
-    // Verifica se o Banco de Dados ta aberto
-    if (!bancoDeDados.isOpen() && !bancoDeDados.open()) {
-        qDebug() << "Erro ao abrir DB em FazerSaque Conta:"
-                 << bancoDeDados.lastError().text();
-        return false;
-    }
-
-    // Atualiza no Banco de Dados:
-    // Saldo
-    QSqlQuery query(bancoDeDados);
-    query.prepare(R"(
-    UPDATE Saldo
-    set Saldo = ?
-    where CPF = ?
-    )");
-
-    query.addBindValue(saldo);
-    query.addBindValue(CPF);
-
-    if(!query.exec())
-    {
-        qDebug()<<"Erro na execução da query em pagarFaturaCredito Conta : " << query.lastError().text();
-        return false;
-    }
-
-    // Credito
-    query.prepare(R"(
-    UPDATE Credito
-    set fatura_atual = ?
-    where CPF = ?
-    )");
-
-    query.addBindValue(faturaCredito);
-    query.addBindValue(CPF);
-
-    if(!query.exec())
-    {
-        qDebug()<<"Erro na execução da query em pagarFaturaCredito Conta : " << query.lastError().text();
-        return false;
-    }
-
-    // Atualiza extrato
-
-    QString extrato = QString("- %1 R$").arg(QString::number(qtdPagamento, 'f', 2));
-    QString hoje = QDate::currentDate().toString(Qt::ISODate);
-    QSqlQuery queryExtrato(bancoDeDados);
-    queryExtrato.prepare(R"(
-    INSERT INTO TransacoesSaidas
-    (CPF,valorTransacao,dataTransacao)
-    VALUES (?,?,?)
-    )");
-
-    queryExtrato.addBindValue(CPF);
-    queryExtrato.addBindValue(extrato);
-    queryExtrato.addBindValue(hoje);
-
-    if(!queryExtrato.exec())
-    {
-        qDebug() << "Erro na execução da query de extrato em FazerDeposito Conta "<< queryExtrato.lastError().text();
-    }
-
     deveMudarExtrato = true;
-    return true;
+    return conexaoBD->pagarFaturaCredito(CPF, qtdPagamento);
 }
 
 void Conta::atualizaExtratoLocal(){
     // Apaga o extrato desatualizado
     extrato.clear();
 
-    if(!bancoDeDados.isOpen() && !bancoDeDados.open())
-    {
-        qDebug() << "Erro ao abrir BD em atualizar extrato: "
-                 << bancoDeDados.lastError().text();
-        return;
-    }
-
-    QSqlQuery query(bancoDeDados);
-
-    // Auto explicativo
-    query.prepare
-    (
-        R"(
-        SELECT valorTransacao, dataTransacao
-        FROM TransacoesSaidas
-        WHERE CPF = ?
-
-        UNION ALL
-
-        SELECT valorTransacao, dataTransacao
-        FROM TransacoesEntrada
-        WHERE CPF = ?
-
-        ORDER BY dataTransacao DESC, valorTransacao DESC
-        LIMIT 50
-        )"
-    );
-
-    query.addBindValue(CPF);
-    query.addBindValue(CPF);
-
-    if (!query.exec())
-    {
-        qDebug() << "Erro ao executar atualizar extrato:"
-                 << query.lastError().text();
-        return;
-    }
-
-    // Repreenche o extrato com informacoes atualizadas
-    while(query.next()){
-        extrato.append(query.value(0).toString());
-        extrato.append("; Data: ");
-        extrato.append(query.value(1).toDate().toString("dd/MM/yyyy"));
-        extrato.append('\n');
-    }
+    extrato = conexaoBD->getExtrato(CPF);
 
     deveMudarExtrato = false;
 }

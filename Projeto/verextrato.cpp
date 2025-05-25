@@ -41,9 +41,9 @@ void VerExtrato::closeEvent(QCloseEvent *event)
 }
 
 void VerExtrato::setarExtrato(){
-    MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
+    Conta* conta = Conta::getInstancia();
 
-    QString extrato = MenuPrin->getConta()->getExtrato();
+    QString extrato = conta->getExtrato();
 
     ui->textEdit->setPlainText(extrato);
 }

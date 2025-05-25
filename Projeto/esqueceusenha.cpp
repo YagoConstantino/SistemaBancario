@@ -5,6 +5,8 @@
 #include <regex>
 #include <string>
 #include <QSqlQuery>
+#include "conta.h"
+
 using namespace std;
 
 
@@ -55,8 +57,7 @@ int EsqueceuSenha::mudarSenha()
 
 Conta *EsqueceuSenha::getConta()
 {
-    MainWindow* log = qobject_cast<MainWindow*>(parentWidget());
-    return log->getConta();
+    return Conta::getInstancia();
 }
 
 //Deve verificar se todos os dados foram passados

@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     _cad(nullptr),
     _Esq(nullptr),
     _CPFlogin(),
-    _SenhaLogin(),
-    contaAtual()
+    _SenhaLogin()
 {
+    contaAtual = Conta::getInstancia();
+
     ui->setupUi(this);
     setWindowTitle("Login");
 
@@ -64,7 +65,7 @@ bool MainWindow::verificarDadosConta(QString login, QString senha)
 
 Conta *MainWindow::getConta()
 {
-    return &contaAtual;
+    return contaAtual;
 }
 
 void MainWindow::clearTexto()
@@ -73,11 +74,19 @@ void MainWindow::clearTexto()
     ui->Senha->clear();
 }
 
+void MainWindow::resetarConta()
+{
+    contaAtual->resetar();
+}
+
 void MainWindow::Menu_Principal()
 {
     //Aqui deve ser feito a vericação do login e senha, se existem no banco de dados e se a senha confere
     //para dai então ir para o menuPrincipal, aqui(mainWindow) ou la deve ser armazenado o CPF ou ID
     //ou primarykey da conta para usarmos no conector do banco de dados, ou seja so armazenamos um dado
+
+    resetarConta();
+
     _CPFlogin = ui->Login->text();
     _SenhaLogin = ui->Senha->text();
 
@@ -116,12 +125,11 @@ void MainWindow::mostrarSenha(bool checked)
 
 bool MainWindow::verificaContaExiste()
 {
-    return contaAtual.verificaContaExiste(_CPFlogin,_SenhaLogin,this);
+    return contaAtual->verificaContaExiste(_CPFlogin,_SenhaLogin,this);
 }
 
 bool MainWindow::recuperaDadosBanco()
 {
-    QSqlDatabase BD = contaAtual.getDataBase();
-    return contaAtual.recuperaDadosConta(_CPFlogin);
+    return contaAtual->recuperaDadosConta(_CPFlogin);
 }
 

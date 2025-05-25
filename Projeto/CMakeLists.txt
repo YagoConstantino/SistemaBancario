@@ -45,6 +45,7 @@ qt_add_executable(Projeto
     ${PROJECT_SOURCES}
     conta.h conta.cpp
     confirmarsenha.h confirmarsenha.cpp confirmarsenha.ui
+    ConexaoBD.h ConexaoBD.cpp
 )
 
 # Link com as bibliotecas do Qt
