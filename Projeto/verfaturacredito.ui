@@ -6,107 +6,101 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>188</height>
+    <width>356</width>
+    <height>181</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>11</x>
-     <y>12</y>
-     <width>223</width>
-     <height>128</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="CredTotalLabel">
-          <property name="text">
-           <string>Crédito Total</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="CredDispLabel">
-          <property name="text">
-           <string>Crédito Disponivel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="FaturaLabel">
-          <property name="text">
-           <string>Fatura</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="QtdPagamento">
-          <property name="text">
-           <string>Quantidade a ser paga</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="CredTotalTxt">
-          <property name="text">
-           <string>0000</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="CredDispTxt">
-          <property name="text">
-           <string>0000</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="FaturaTxt">
-          <property name="text">
-           <string>0000</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="QtdPagarText"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="Sair">
-        <property name="text">
-         <string>Sair</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="PagarButton">
-        <property name="text">
-         <string>Pagar Fatura</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="CredTotalLabel">
+           <property name="text">
+            <string>Crédito Total</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="CredDispLabel">
+           <property name="text">
+            <string>Crédito Disponivel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="FaturaLabel">
+           <property name="text">
+            <string>Fatura</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="QtdPagamento">
+           <property name="text">
+            <string>Quantidade a ser paga</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="CredTotalTxt">
+           <property name="text">
+            <string>0000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="CredDispTxt">
+           <property name="text">
+            <string>0000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="FaturaTxt">
+           <property name="text">
+            <string>0000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="QtdPagarText"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="Sair">
+         <property name="text">
+          <string>Sair</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="PagarButton">
+         <property name="text">
+          <string>Pagar Fatura</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
