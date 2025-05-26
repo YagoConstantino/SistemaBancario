@@ -17,11 +17,15 @@ public:
     bool fazerSaque(double qtdSaque);
     bool fazerDeposito(double qtdDeposito);
     bool fazerTransf(double qtdTransf,QString cpfReceptor);
+    bool pagarFaturaCredito(double qtdPagamento);
     bool encerrarConta();
     bool confirmarSenha(QString cpf,QString senhaDigitada);
     bool trocarSenha(QString cpf,QString nomeMamae,QString senha,QWidget *janela);
     bool verificaContaExiste(QString cpf,QString senha,QWidget *janela);
     bool recuperaDadosConta(QString cpf);
+    void atualizaExtratoLocal();
+
+    bool CadastraContaBD();
 
     void setNome(QString novoNome);
     const QString getNome()const ;
@@ -57,13 +61,6 @@ public:
     double getSaldo();
     double getFaturaCred();
     const QString getExtrato();
-    void atualizaExtratoLocal();
-
-    bool CadastraContaBD();
-    bool pagarFaturaCredito(double qtdPagamento);
-
-    //Não sei se precisa de mais setters e getters, saldo, creditos , faturas e extratos serão alterados e recuperados
-    // em outras funções
 
 
 private:
