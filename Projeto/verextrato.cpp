@@ -1,6 +1,10 @@
 #include "verextrato.h"
 #include "ui_verextrato.h"
-
+#include <QFileDialog>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QPageLayout>
+#include <QFontMetrics>
 #include "menuprincipal.h"
 #include <qevent.h>
 
@@ -17,6 +21,7 @@ VerExtrato::VerExtrato(QWidget *parent)
     setarExtrato();
 
     connect(ui->Sair,SIGNAL(clicked()),this,SLOT(voltarMenu()));
+    connect(ui->SalvarPDFButton,SIGNAL(clicked()),this,SLOT(salvarPDF()));
 }
 
 VerExtrato::~VerExtrato()
@@ -29,6 +34,25 @@ void VerExtrato::voltarMenu()
     MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
     MenuPrin->show();
     close();
+}
+
+void VerExtrato::salvarPDF()
+{
+    QString filepath = QFileDialog::getSaveFileName(this, "Salvar extrato em PDF", QString(), "PDF files (*.pdf)");
+
+    if(filepath.isEmpty()) {
+        QMessageBox::warning(this, "Erro", "Extensão do Arquivo não era .pdf");
+        return;
+    }
+
+    // Informações do cliente
+    /*MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
+    QString nome = menu->getConta()->getNome();
+    QString CPF = menu->getConta()->getCPF();
+    QString data = QDate::currentDate().toString("dd/MM/yyyy");
+    QString extrato = ui->textEdit->toPlainText();*/
+
+
 }
 
 void VerExtrato::closeEvent(QCloseEvent *event)

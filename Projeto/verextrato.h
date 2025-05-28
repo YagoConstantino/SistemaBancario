@@ -23,6 +23,7 @@ private:
 
 private slots:
     void voltarMenu();
+    void salvarPDF();
 
     //Funções
 private:
