@@ -2,6 +2,7 @@
 #define VEREXTRATO_H
 
 #include <QDialog>
+#include "conta.h"
 
 namespace Ui {
 class VerExtrato;

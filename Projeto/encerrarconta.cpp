@@ -2,6 +2,7 @@
 #include "ui_encerrarconta.h"
 #include "menuprincipal.h"
 #include "confirmarsenha.h"
+#include "conta.h"
 #include <QMessageBox>
 #include <qevent.h>
 #include <QMessageBox>
@@ -46,15 +47,17 @@ void EncerrarConta::closeEvent(QCloseEvent *event)
 
 void EncerrarConta::encerrarConta()
 {
+    Conta* conta = Conta::getInstancia();
+
     MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
-    Conta *contaAtual = menu->getConta();
+
     if(verificaDadosParaEncerramento())
     {
         ConfirmarSenha dlg(menu);
         // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
         if(dlg.exec() == QDialog::Accepted)
         {
-            if(contaAtual->encerrarConta())
+            if(conta->encerrarConta())
             {
                 QMessageBox::information(this,"Conta Encerrada","Conta foi Encerrada com sucesso");
                 menu->close();

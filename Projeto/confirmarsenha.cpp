@@ -4,6 +4,7 @@
 #include "conta.h"
 #include <QMessageBox>
 #include <QSqlQuery>
+
 ConfirmarSenha::ConfirmarSenha(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ConfirmarSenha)
@@ -22,20 +23,15 @@ ConfirmarSenha::~ConfirmarSenha()
 
 void ConfirmarSenha::senhaOk()
 {
+    Conta* conta = Conta::getInstancia();
+
     // Obtém CPF da conta ativa
-    MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
-    if (!menu) {
-        QMessageBox::warning(this, tr("Erro"), tr("Não foi possível obter a conta."));
-        reject();  // retorna false
-        return;
-    }
-    QString cpf = menu->getConta()->getCPF();
+    QString cpf = conta->getCPF();
     QString senhaDigitada = ui->SenhaTxt->text();
 
 
     // Consulta no DB
-    Conta* contaAtual = menu->getConta();
-    if(contaAtual->confirmarSenha(cpf,senhaDigitada))
+    if(conta->confirmarSenha(cpf,senhaDigitada))
     {
          accept();
     }

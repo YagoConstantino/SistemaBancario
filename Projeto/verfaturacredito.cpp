@@ -66,6 +66,8 @@ void VerFaturaCredito::pagarFatura()
     // Criar uma janela parecida com a do deposito, pegar a quantidade e alterar no saldo e fatura no banco de dados
     MenuPrin = qobject_cast<MenuPrincipal*>(parentWidget());
 
+    Conta* conta = Conta::getInstancia();
+
     // Verifica os valores inseridos para pagar a fatura
     bool ok = false;
     QtdPagar = ui->QtdPagarText->text().toDouble(&ok);
@@ -78,11 +80,11 @@ void VerFaturaCredito::pagarFatura()
         QMessageBox::warning(this, "Erro", "Valores negativos não são permitidos");
         return;
     }
-    else if(QtdPagar > MenuPrin->getConta()->getSaldo()){
+    else if(QtdPagar > conta->getSaldo()){
         QMessageBox::warning(this, "Erro", "Valor inserido maior do que o saldo da conta");
         return;
     }
-    else if(QtdPagar > MenuPrin->getConta()->getFaturaCred()){
+    else if(QtdPagar > conta->getFaturaCred()){
         QMessageBox::warning(this, "Erro", "Valor inserido maior do que a fatura");
         return;
     }
@@ -91,7 +93,7 @@ void VerFaturaCredito::pagarFatura()
     // exec() retorna QDialog::Accepted (1) ou QDialog::Rejected (0)
     if(dlg.exec() == QDialog::Accepted)
     {
-        if(MenuPrin->getConta()->pagarFaturaCredito(QtdPagar))
+        if(conta->pagarFaturaCredito(QtdPagar))
         {
             QMessageBox::information(this,"Sucesso","Pagamento feito com Sucesso");
         }

@@ -4,6 +4,7 @@
 #include "confirmarsenha.h"
 #include <qevent.h>
 #include <QMessageBox>
+#include "conta.h"
 
 FazerSaque::FazerSaque(QWidget *parent)
     : QDialog(parent)
@@ -34,6 +35,7 @@ void FazerSaque::voltarMenu()
 
 void FazerSaque::confirmarSenha()
 {
+    Conta* conta = Conta::getInstancia();
 
     QString valor = ui->QuantidadeSaque->text();
 
@@ -46,7 +48,7 @@ void FazerSaque::confirmarSenha()
     {
         if(dlg.exec() == QDialog::Accepted)
         {
-            if(menu->getConta()->fazerSaque(QtdSaque))
+            if(conta->fazerSaque(QtdSaque))
             {
                 QMessageBox::information(this,"Sucesso","Saque feito com Sucesso");
             }

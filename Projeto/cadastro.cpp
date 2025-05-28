@@ -1,6 +1,7 @@
 #include "cadastro.h"
 #include "ui_cadastro.h"
 #include "mainwindow.h"
+#include "conta.h"
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <regex>
@@ -62,8 +63,7 @@ bool Cadastro::criaConta()
 
 Conta *Cadastro::getConta()
 {
-    MainWindow* log = qobject_cast<MainWindow*>(parentWidget());
-    return log->getConta();
+    return Conta::getInstancia();
 }
 
 void Cadastro::voltarLogin()
@@ -163,7 +163,7 @@ void Cadastro::ConfirmarCadastro()
     _Senha = ui->Senha->text();
     _ConfirmaSenha = ui->ConfirmaSenha->text();
 
-    if (verificaCadastro()&& criaConta())
+    if (verificaCadastro() && criaConta())
     {
         voltarLogin();
     }

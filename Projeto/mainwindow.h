@@ -29,6 +29,7 @@ public:
     bool verificarDadosConta(QString login,QString senha);
     Conta* getConta();
     void clearTexto();
+    void resetarConta();
 
 private slots:
     void Menu_Principal();
@@ -46,6 +47,6 @@ private:
     QString _CPFlogin;
     QString _SenhaLogin;
 
-    Conta contaAtual;
+    Conta* contaAtual;
 };
 #endif // MAINWINDOW_H

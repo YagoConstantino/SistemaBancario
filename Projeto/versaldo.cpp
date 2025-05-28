@@ -41,8 +41,8 @@ void VerSaldo::closeEvent(QCloseEvent *event)
 
 void VerSaldo::setarSaldoAtual()
 {
-    MenuPrincipal *menu = qobject_cast<MenuPrincipal*>(parentWidget());
-    double saldo = menu->getConta()->getSaldo();
+    Conta* conta = Conta::getInstancia();
+    double saldo = conta->getSaldo();
 
     //converter o double para QString
     QString textoSaldo = QString::number(saldo,'f',2);

@@ -2,6 +2,7 @@
 #include "ui_fazerdeposito.h"
 #include "menuprincipal.h"
 #include "confirmarsenha.h"
+#include "conta.h"
 #include <QMessageBox>
 #include <qevent.h>
 
@@ -43,6 +44,8 @@ void FazerDeposito::closeEvent(QCloseEvent *event)
 
 void FazerDeposito::confirmarSenha()
 {
+    Conta* conta = Conta::getInstancia();
+
     QString valor = ui->QtdDeposito->text();
     QtdDeposito = valor.toDouble();
 
@@ -55,7 +58,7 @@ void FazerDeposito::confirmarSenha()
     {
         if(dlg.exec() == QDialog::Accepted)
         {
-            if(menu->getConta()->fazerDeposito(QtdDeposito))
+            if(conta->fazerDeposito(QtdDeposito))
             {
                 QMessageBox::information(this,"Sucesso","Deposito feito com Sucesso");
             }
