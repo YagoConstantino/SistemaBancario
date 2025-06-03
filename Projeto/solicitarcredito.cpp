@@ -8,6 +8,7 @@ SolicitarCredito::SolicitarCredito(QWidget *parent)
     , ui(new Ui::SolicitarCredito)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
 
     preencheDados();
     conectarBotoes();
