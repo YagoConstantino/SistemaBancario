@@ -16,9 +16,10 @@ MenuPrincipal::MenuPrincipal(QWidget *parent)
     FatCred(nullptr),
     VerExtra(nullptr),
     EnceCont(nullptr),
-    VerSald(nullptr)
-
+    VerSald(nullptr),
+    SolicCred(nullptr)
     {
+
         ui->setupUi(this);
         setWindowTitle("Menu Principal");
         setAttribute(Qt::WA_DeleteOnClose);
@@ -67,6 +68,7 @@ void MenuPrincipal::ConectaBotoesFuncoes()
     connect(ui->VerExtrato,SIGNAL(clicked()),this,SLOT(JanelaVerExtrato()));
     connect(ui->EncerraButton,SIGNAL(clicked()),this,SLOT(JanelaEncerrarConta()));
     connect(ui->VerSaldo,SIGNAL(clicked()),this,SLOT(verSaldo()));
+    connect(ui->SolicitarCredito,SIGNAL(clicked()),this,SLOT(JanelaSolicitarCredito()));
 }
 void MenuPrincipal::voltarLogin()
 {
@@ -128,4 +130,11 @@ void MenuPrincipal::verSaldo()
     VerSald = new VerSaldo(this);
     VerSald->show();
     hide();
+}
+
+void MenuPrincipal::JanelaSolicitarCredito()
+{
+    SolicCred = new SolicitarCredito(this);
+    hide();
+    SolicCred->exec();
 }

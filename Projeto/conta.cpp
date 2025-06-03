@@ -243,9 +243,10 @@ const double Conta::getSaldo() const
     return saldo;
 }
 
-void Conta::setCreditoTotal(double novoCredTotal)
+void Conta::setCreditoTotal(int novoCredTotal)
 {
     creditoTotal = novoCredTotal;
+
     creditoDisponivel = creditoTotal - faturaCredito;
 }
 
@@ -305,6 +306,15 @@ void Conta::atualizaExtratoLocal(){
     extrato = conexaoBD->getExtrato(CPF);
 
     deveMudarExtrato = false;
+}
+
+const bool Conta::atualizaCreditoBD(int novoCredito)
+{
+    if(!conexaoBD->atualizarCredito(CPF, novoCredito)) return false;
+
+    setCreditoTotal(novoCredito);
+
+    return true;
 }
 void tratarCPF(QString &cpf)
 {

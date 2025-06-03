@@ -553,7 +553,7 @@ const bool ConexaoBD::recuperaDadosConta(QString cpf)
     }
 
     conta->setFaturaCred(queryCredito.value(1).toDouble());
-    conta->setCreditoTotal(queryCredito.value(0).toDouble());
+    conta->setCreditoTotal(queryCredito.value(0).toInt());
 
     return true;
 }
@@ -638,6 +638,30 @@ const bool ConexaoBD::cadastraConta()
                      << querySaldo.lastError().text();
             return false;
         }
+    }
+
+    return true;
+}
+
+// Atualiza o credito total da conta com o cpf dado
+const bool ConexaoBD::atualizarCredito(QString cpf, int novoCredito)
+{
+    QSqlQuery query(_bancoDeDados);
+
+    query.prepare
+    (R"(
+        UPDATE Credito
+        SET credito_total = ?
+        WHERE CPF = ?
+    )");
+
+    query.addBindValue(novoCredito);
+    query.addBindValue(cpf);
+
+    if (!query.exec()) {
+        qDebug() << "Erro ao exec atualizarCredito de ConexaoBD:"
+                 << query.lastError().text();
+        return false;
     }
 
     return true;

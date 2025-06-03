@@ -10,6 +10,7 @@
 #include "encerrarconta.h"
 #include "versaldo.h"
 #include "conta.h"
+#include "solicitarcredito.h"
 
 namespace Ui { class MenuPrincipal; }
 class MainWindow;
@@ -32,6 +33,7 @@ private slots:
     void JanelaVerExtrato();
     void JanelaEncerrarConta();
     void verSaldo();
+    void JanelaSolicitarCredito();
 
 //Funções
 private:
@@ -40,16 +42,16 @@ private:
 
 
 private:
-    Ui::MenuPrincipal *ui;
-    MainWindow *Login;
-    FazerDeposito *Dep;
-    FazerSaque    *Saq;
+    Ui::MenuPrincipal  *ui;
+    MainWindow         *Login;
+    FazerDeposito      *Dep;
+    FazerSaque         *Saq;
     FazerTransferencia *Transf;
     VerFaturaCredito   *FatCred;
     VerExtrato         *VerExtra;
     EncerrarConta      *EnceCont;
     VerSaldo           *VerSald;
-
+    SolicitarCredito   *SolicCred;
 };
 
 #endif // MENUPRINCIPAL_H

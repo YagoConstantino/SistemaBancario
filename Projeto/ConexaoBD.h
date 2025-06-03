@@ -39,6 +39,7 @@ public:
     const int verificaContaExistente(QString cpf, QString senhaDigitada);
     const bool recuperaDadosConta(QString cpf);
     const bool cadastraConta();
+    const bool atualizarCredito(QString cpf, int novoCredito);
 };
 
 #endif // CONEXAOBD_H

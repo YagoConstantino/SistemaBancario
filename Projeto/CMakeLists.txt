@@ -46,6 +46,10 @@ qt_add_executable(Projeto
     conta.h conta.cpp
     confirmarsenha.h confirmarsenha.cpp confirmarsenha.ui
     ConexaoBD.h ConexaoBD.cpp
+    solicitarcredito.h solicitarcredito.cpp
+    solicitarcredito.h solicitarcredito.cpp solicitarcredito.ui
+
+
 )
 
 # Link com as bibliotecas do Qt

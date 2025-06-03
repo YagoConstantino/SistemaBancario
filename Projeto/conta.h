@@ -24,6 +24,7 @@ public:
     bool verificaContaExiste(QString cpf,QString senha,QWidget *janela);
     bool recuperaDadosConta(QString cpf);
     void atualizaExtratoLocal();
+    const bool atualizaCreditoBD(int novoCredito);
 
     bool CadastraContaBD();
 
@@ -48,7 +49,7 @@ public:
     void setSaldo(double novoSaldo);
     const double getSaldo()const;
 
-    void setCreditoTotal(double novoCredTotal);
+    void setCreditoTotal(int novoCredTotal);
     const double getCredTotal()const;
 
     const double getCredDisponivel()const;
