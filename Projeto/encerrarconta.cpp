@@ -88,8 +88,6 @@ int EncerrarConta::verificaDadosParaEncerramento()
         QMessageBox::warning(this,"insira seu login e senha","Erro ao ler dados, Login e Senha vazios");
         return 0;
     }
-    //If login ou senha != do que ta no banco de dados return 0, com warning etc
-
 
     return 1;
 }

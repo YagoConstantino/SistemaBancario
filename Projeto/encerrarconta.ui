@@ -25,7 +25,7 @@
            <item>
             <widget class="QLabel" name="labelLogin">
              <property name="text">
-              <string>Login</string>
+              <string>CPF    </string>
              </property>
             </widget>
            </item>
@@ -55,6 +55,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="MostrarSenha">
+         <property name="text">
+          <string>Mostrar Senha</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="Sair">
@@ -66,20 +73,13 @@
          <item>
           <widget class="QPushButton" name="EncerrarButton">
            <property name="text">
-            <string>Deseja Encerrar a Conta ?</string>
+            <string>Encerrar conta</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="MostrarSenha">
-       <property name="text">
-        <string>Mostrar Senha</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>
