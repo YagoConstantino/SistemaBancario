@@ -24,3 +24,8 @@ jobs:
         run: |
           chmod +x script.sh
           ./script.sh
+      - name: Acionar job do Jenkins
+        run: |
+          curl -X POST \
+            ${{ secrets.JENKINS_URL }}/job/sistema-bancario-tag-build/build \
+            --user ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}
