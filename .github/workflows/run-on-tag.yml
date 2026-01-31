@@ -1,0 +1,26 @@
+name: Executar script ao criar TAG
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  run-bash:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mostrar tag detectada
+        run: |
+          echo "TAG detectada:"
+          git tag --points-at HEAD
+
+      - name: Executar script bash
+        run: |
+          chmod +x script.sh
+          ./script.sh
